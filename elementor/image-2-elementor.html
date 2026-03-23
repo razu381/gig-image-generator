@@ -3,248 +3,440 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=1280">
-  <title>Image 1 — WordPress Websites</title>
+  <title>WordPress & WooCommerce — Elementor Expert</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont/dist/tabler-icons.min.css"/>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      background: #111;
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100vh; background: #111;
     }
 
     .canvas {
-      width: 1280px;
-      height: 769px;
+      width: 1280px; height: 769px;
+      overflow: hidden; position: relative;
+      background: #07070a;
+      display: flex; flex-direction: column;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    /* ── Background ── */
+    .bg-grid {
+      position: absolute; inset: 0; z-index: 0;
+      background-image:
+        linear-gradient(rgba(237,1,238,0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(237,1,238,0.045) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+    .bg-radial-r {
+      position: absolute; inset: 0; z-index: 0;
+      background: radial-gradient(ellipse 65% 75% at 105% 105%, rgba(98,8,86,0.55) 0%, transparent 60%);
+    }
+    .bg-radial-l {
+      position: absolute; inset: 0; z-index: 0;
+      background: radial-gradient(ellipse 45% 55% at -5% -5%, rgba(98,8,86,0.38) 0%, transparent 55%);
+    }
+    .bg-beam {
+      position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 2px; height: 100%; z-index: 0;
+      background: linear-gradient(180deg, rgba(237,1,238,0.18) 0%, transparent 100%);
+    }
+    .bg-noise {
+      position: absolute; inset: 0; z-index: 1; opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+    }
+
+    /* ── TOP BAR ── */
+    .top-bar {
+      position: relative; z-index: 10;
+      height: 60px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 52px;
+      border-bottom: 1px solid rgba(237,1,238,0.13);
+      background: rgba(7,7,10,0.7);
+      backdrop-filter: blur(8px);
+    }
+
+    .top-left { display: flex; align-items: center; gap: 10px; }
+
+    .logo-mark {
+      width: 28px; height: 28px; border-radius: 6px;
+      background: #ED01EE;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 16px; color: #fff; letter-spacing: 0;
+      box-shadow: 0 0 14px rgba(237,1,238,0.6), inset 0 1px 0 rgba(255,255,255,0.2);
+      flex-shrink: 0;
+    }
+
+    .top-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px; font-weight: 700;
+      color: rgba(255,184,229,0.8); text-transform: uppercase; letter-spacing: 0.16em;
+    }
+
+    .top-right { display: flex; align-items: center; gap: 10px; }
+
+    .badge-stars {
+      display: flex; align-items: center; gap: 7px;
+      background: rgba(237,1,238,0.1);
+      border: 1px solid rgba(237,1,238,0.25);
+      border-radius: 6px; padding: 6px 14px;
+    }
+    .badge-stars .stars { color: #FFD700; font-size: 12px; letter-spacing: 1px; }
+    .badge-stars .badge-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; font-weight: 700;
+      color: #FFB8E5; text-transform: uppercase; letter-spacing: 0.06em;
+    }
+
+    .badge-pill {
+      background: linear-gradient(135deg, #ED01EE 0%, #7d0578 100%);
+      border-radius: 6px; padding: 6px 14px;
+      box-shadow: 0 0 14px rgba(237,1,238,0.35);
+    }
+    .badge-pill span {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; font-weight: 700;
+      color: #fde4fd; text-transform: uppercase; letter-spacing: 0.08em;
+    }
+
+    /* ── MAIN BODY ── */
+    .main-body {
+      flex: 1; position: relative; z-index: 5;
+      display: flex; gap: 0;
+      padding: 32px 52px 24px;
       overflow: hidden;
-      position: relative;
-      background: linear-gradient(135deg, #0d0021 0%, #1a0533 40%, #080808 100%);
-      display: flex;
     }
 
-    /* Ambient glow — no hard edge */
-    .purple-blur {
-      position: absolute;
-      width: 600px;
-      height: 600px;
-      border-radius: 50%;
-      background: rgba(138, 43, 226, 0.18);
-      filter: blur(100px);
-      top: 50%;
-      left: 28%;
-      transform: translate(-50%, -50%);
-      z-index: 1;
-      pointer-events: none;
-    }
-
-    /* ── LEFT PANEL ── */
-    .left-content {
-      width: 720px;
-      height: 769px;
-      padding: 52px 56px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 32px;
-      position: relative;
-      z-index: 2;
+    /* ── LEFT COLUMN ── */
+    .left-col {
+      width: 460px; flex-shrink: 0;
+      display: flex; flex-direction: column;
+      justify-content: center; gap: 20px;
+      padding-right: 44px;
+      border-right: 1px solid rgba(237,1,238,0.11);
     }
 
     .eyebrow {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      font-weight: 700;
-      color: rgba(138, 43, 226, 0.85);
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
+      font-size: 10px; font-weight: 700;
+      color: rgba(237,1,238,0.7); text-transform: uppercase;
+      letter-spacing: 0.2em; display: flex; align-items: center; gap: 8px;
+    }
+    .eyebrow::before {
+      content: '';
+      display: block; width: 24px; height: 1.5px;
+      background: #ED01EE; border-radius: 2px;
     }
 
     .headline {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 80px;
-      color: #ffffff;
-      text-transform: uppercase;
-      line-height: 0.93;
-      letter-spacing: -2px;
+      font-family: 'Bebas Neue', sans-serif;
+      line-height: 0.9; letter-spacing: 0.5px;
+    }
+    .hl-dim  { font-size: 26px; color: #444; display: block; margin-bottom: 4px; letter-spacing: 2px; }
+    .hl-main { font-size: 78px; color: #f0f0f0; display: block; line-height: 0.88; }
+    .hl-accent { color: #ED01EE; }
+    .hl-sub  { font-size: 68px; color: #f0f0f0; display: block; line-height: 0.92; }
+
+    .rule {
+      width: 44px; height: 2px;
+      background: linear-gradient(90deg, #ED01EE, transparent);
+      border-radius: 2px;
     }
 
-    .headline .highlight { color: #00ea1c; }
-
-    /* ── SERVICE TAGS ── */
-    .service-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
+    .desc {
+      font-size: 13.5px; font-weight: 400; line-height: 1.7;
+      color: #666; max-width: 380px;
     }
+    .desc em { color: #999; font-style: normal; }
 
-    .tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      padding: 8px 14px;
-      border-radius: 6px;
-      border: 1px solid rgba(0, 234, 28, 0.22);
-      background: rgba(0, 234, 28, 0.05);
+    /* Stats */
+    .stats { display: flex; gap: 10px; }
+    .stat {
+      border: 1px solid rgba(98,8,86,0.9);
+      border-top-color: rgba(237,1,238,0.4);
+      border-radius: 8px; padding: 13px 16px;
+      background: rgba(15,10,15,0.8); flex: 1;
     }
-
-    .tag__dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #00ea1c;
-      flex-shrink: 0;
+    .stat-n {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 32px; color: #00ea1c; line-height: 1;
+      text-shadow: 0 0 10px rgba(0,234,28,0.35);
     }
-
-    .tag__text {
+    .stat-l {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
-      font-weight: 700;
-      color: #d4ffd8;
-      letter-spacing: 0.04em;
+      font-size: 9.5px; font-weight: 700; color: rgba(255,184,229,0.5);
+      text-transform: uppercase; letter-spacing: 0.12em; margin-top: 4px;
     }
 
-    /* ── STAT BLOCKS ── */
-    .stats {
-      display: flex;
-      gap: 16px;
+    /* ── RIGHT COLUMN ── */
+    .right-col {
+      flex: 1; padding-left: 44px;
+      display: flex; flex-direction: column;
+      justify-content: center; gap: 12px;
     }
 
-    .stat-box {
-      border: 1px solid rgba(138, 43, 226, 0.28);
-      border-radius: 8px;
-      padding: 16px 22px;
-      background: rgba(138, 43, 226, 0.06);
-      min-width: 110px;
-    }
-
-    .stat-number {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 34px;
-      color: #ffffff;
-      line-height: 1;
-    }
-
-    .stat-label {
+    .section-label {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      font-weight: 700;
-      color: rgba(138, 43, 226, 0.7);
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      margin-top: 6px;
+      font-size: 10px; font-weight: 700;
+      color: rgba(237,1,238,0.55); text-transform: uppercase;
+      letter-spacing: 0.18em; margin-bottom: 2px;
     }
 
-    /* ── PHOTO SECTION ── */
-    .photo-section {
-      /* fills the remaining width */
-      flex: 1;
-      height: 769px;
-      position: relative;
-      z-index: 2;
+    /* ── FEATURE CARDS GRID ── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 9px;
     }
 
-    .photo-section img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center top;
-      display: block;
-      /* Seamless fade: left edge blends into background, right + bottom stay sharp */
-      -webkit-mask-image: linear-gradient(
-        to right,
-        transparent 0%,
-        rgba(0,0,0,0.3) 12%,
-        rgba(0,0,0,0.75) 26%,
-        black 44%
-      );
-      mask-image: linear-gradient(
-        to right,
-        transparent 0%,
-        rgba(0,0,0,0.3) 12%,
-        rgba(0,0,0,0.75) 26%,
-        black 44%
-      );
+    .feat-card {
+      background: linear-gradient(145deg, rgba(18,12,18,0.95) 0%, rgba(10,8,12,0.98) 100%);
+      border: 1px solid rgba(237,1,238,0.12);
+      border-radius: 10px;
+      padding: 14px 15px 13px;
+      display: flex; flex-direction: column; gap: 9px;
+      position: relative; overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .feat-card::after {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 1.5px;
+      background: linear-gradient(90deg, rgba(237,1,238,0.5), transparent 70%);
+    }
+    .feat-card.green-accent { border-color: rgba(0,234,28,0.12); }
+    .feat-card.green-accent::after {
+      background: linear-gradient(90deg, rgba(0,234,28,0.5), transparent 70%);
     }
 
-    /* ── REVIEW BADGE ── */
-    .review-badge {
-      position: absolute;
-      top: 24px;
-      right: 24px;
-      background: #00ea1c;
-      padding: 10px 18px;
-      border-radius: 6px;
-      z-index: 10;
+    .feat-icon {
+      width: 32px; height: 32px; border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(237,1,238,0.08);
+      border: 1px solid rgba(237,1,238,0.2);
     }
+    .feat-icon i { font-size: 16px; color: #ED01EE; }
+    .feat-icon.g { background: rgba(0,234,28,0.07); border-color: rgba(0,234,28,0.2); }
+    .feat-icon.g i { color: #00ea1c; }
 
-    .review-badge span {
+    .feat-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12.5px; font-weight: 600; color: #e8e8e8; line-height: 1.25;
+      margin-bottom: 10px;
+    }
+    .feat-sub {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
-      font-weight: 700;
-      color: #080808;
-      letter-spacing: 0.04em;
+      font-size: 9.5px; font-weight: 400; color: #444;
+      text-transform: uppercase; letter-spacing: 0.07em; line-height: 1.5;
+    }
+
+    /* ── BOTTOM BAR ── */
+    .bottom-bar {
+      position: relative; z-index: 10;
+      height: 52px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 52px;
+      border-top: 1px solid rgba(237,1,238,0.10);
+      background: rgba(7,7,10,0.7);
+    }
+
+    .brand-row { display: flex; align-items: center; gap: 14px; }
+    .pulse { width: 6px; height: 6px; border-radius: 50%; background: #ED01EE;
+      box-shadow: 0 0 8px rgba(237,1,238,0.9); flex-shrink: 0; }
+    .brand-row img { height: 20px; opacity: 0.82;
+      filter: drop-shadow(0 0 5px rgba(237,1,238,0.25)); }
+    .brand-row img.wp { height: 44px; opacity: 0.78; }
+
+    .chips { display: flex; gap: 7px; flex-wrap: wrap; }
+    .chip {
+      border: 1px solid rgba(237,1,238,0.18);
+      border-radius: 4px; padding: 3.5px 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px; font-weight: 700;
+      color: rgba(255,184,229,0.7); text-transform: uppercase; letter-spacing: 0.07em;
+    }
+
+    /* ── Bottom accent line ── */
+    .accent-line {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 2px; z-index: 20;
+      background: linear-gradient(90deg,
+        transparent 0%, #620856 12%, #ED01EE 38%,
+        #00ea1c 60%, rgba(0,234,28,0.25) 82%, transparent 100%);
     }
   </style>
 </head>
 <body>
-  <div class="canvas">
-    <div class="purple-blur"></div>
+<div class="canvas">
 
-    <div class="left-content">
-      <div class="eyebrow">WordPress &amp; Elementor Development</div>
+  <!-- Background -->
+  <div class="bg-grid"></div>
+  <div class="bg-radial-r"></div>
+  <div class="bg-radial-l"></div>
+  <div class="bg-beam"></div>
+  <div class="bg-noise"></div>
 
-      <div class="headline">
-        <div>WORDPRESS</div>
-        <div class="highlight">WEBSITES</div>
-      </div>
-
-      <!-- Restyled as branded tags instead of a plain checklist -->
-      <div class="service-tags">
-        <div class="tag">
-          <div class="tag__dot"></div>
-          <span class="tag__text">Figma to WordPress</span>
-        </div>
-        <div class="tag">
-          <div class="tag__dot"></div>
-          <span class="tag__text">Elementor Pro</span>
-        </div>
-        <div class="tag">
-          <div class="tag__dot"></div>
-          <span class="tag__text">WooCommerce</span>
-        </div>
-      </div>
-
-      <div class="stats">
-        <div class="stat-box">
-          <div class="stat-number">70+</div>
-          <div class="stat-label">Reviews</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-number">19</div>
-          <div class="stat-label">Countries</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-number">5 YRS</div>
-          <div class="stat-label">Experience</div>
-        </div>
-      </div>
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="top-left">
+      <div class="logo-mark">E</div>
+      <span class="top-label">WordPress &amp; WooCommerce Expert</span>
     </div>
-
-    <div class="photo-section">
-      <img src="../images/shohidul-i-razu.png" alt="Shohidul Islam Razu">
-    </div>
-
-    <div class="review-badge">
-      <span>★ 70+ Five-Star Reviews</span>
+    <div class="top-right">
+      <div class="badge-stars">
+        <span class="stars">★★★★★</span>
+        <span class="badge-text">5.0 Rating</span>
+      </div>
+      <div class="badge-pill"><span>50+ Projects Delivered</span></div>
     </div>
   </div>
+
+  <!-- MAIN BODY -->
+  <div class="main-body">
+
+    <!-- LEFT -->
+    <div class="left-col">
+      <div class="eyebrow">Elementor Pro Specialist</div>
+
+      <div class="headline">
+        <span class="hl-dim">Design &amp; Build</span>
+        <span class="hl-main"><span class="hl-accent">WORDPRESS</span></span>
+        <span class="hl-sub">WEBSITES</span>
+      </div>
+
+      <div class="rule"></div>
+
+      <p class="desc">
+        <em>Business sites, eCommerce stores &amp; redesigns</em> — built with
+        Elementor Pro. Mobile-responsive, fast, and fully editable by you
+        without touching a line of code.
+      </p>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-n">52+</div>
+          <div class="stat-l">Projects</div>
+        </div>
+        <div class="stat">
+          <div class="stat-n">4.9★</div>
+          <div class="stat-l">Rating</div>
+        </div>
+        <div class="stat">
+          <div class="stat-n">19</div>
+          <div class="stat-l">Countries</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Feature Cards -->
+    <div class="right-col">
+      <p class="section-label">Every build includes</p>
+
+      <div class="cards-grid">
+
+        <div class="feat-card">
+          <div class="feat-icon"><i class="ti ti-layout-2"></i></div>
+          <div>
+            <div class="feat-title">Elementor Pro Setup</div>
+            <div class="feat-sub">Fully editable · No dev needed</div>
+          </div>
+        </div>
+
+        <div class="feat-card green-accent">
+          <div class="feat-icon g"><i class="ti ti-device-mobile"></i></div>
+          <div>
+            <div class="feat-title">Responsive Design</div>
+            <div class="feat-sub">Desktop · Tablet · Mobile</div>
+          </div>
+        </div>
+
+        <div class="feat-card">
+          <div class="feat-icon"><i class="ti ti-shopping-cart"></i></div>
+          <div>
+            <div class="feat-title">WooCommerce Store</div>
+            <div class="feat-sub">Products · Payments · Shipping</div>
+          </div>
+        </div>
+
+        <div class="feat-card green-accent">
+          <div class="feat-icon g"><i class="ti ti-bolt"></i></div>
+          <div>
+            <div class="feat-title">Speed Optimization</div>
+            <div class="feat-sub">Cache · Images · Core Web Vitals</div>
+          </div>
+        </div>
+
+        <div class="feat-card">
+          <div class="feat-icon"><i class="ti ti-shield-lock"></i></div>
+          <div>
+            <div class="feat-title">Security Setup</div>
+            <div class="feat-sub">SSL · Login protect · Malware</div>
+          </div>
+        </div>
+
+        <div class="feat-card green-accent">
+          <div class="feat-icon g"><i class="ti ti-search"></i></div>
+          <div>
+            <div class="feat-title">SEO Ready</div>
+            <div class="feat-sub">Clean URLs · Sitemap · Meta</div>
+          </div>
+        </div>
+
+        <div class="feat-card">
+          <div class="feat-icon"><i class="ti ti-forms"></i></div>
+          <div>
+            <div class="feat-title">Forms &amp; Integrations</div>
+            <div class="feat-sub">Contact · Maps · Social</div>
+          </div>
+        </div>
+
+        <div class="feat-card green-accent">
+          <div class="feat-icon g"><i class="ti ti-credit-card"></i></div>
+          <div>
+            <div class="feat-title">Payment Gateways</div>
+            <div class="feat-sub">Stripe · PayPal · Local</div>
+          </div>
+        </div>
+
+        <div class="feat-card">
+          <div class="feat-icon"><i class="ti ti-key"></i></div>
+          <div>
+            <div class="feat-title">Full Admin Handover</div>
+            <div class="feat-sub">Clean access · Day 1 ready</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM BAR -->
+  <div class="bottom-bar">
+    <div class="brand-row">
+      <div class="pulse"></div>
+      <img src="../images/Elementor-Pink-400x70.svg" alt="Elementor" />
+      <img src="../images/WordPress-logotype-standard-white.png" alt="WordPress" class="wp" />
+    </div>
+    <div class="chips">
+      <div class="chip">WordPress</div>
+      <div class="chip">Elementor Pro</div>
+      <div class="chip">WooCommerce</div>
+      <div class="chip">Crocoblock</div>
+      <div class="chip">Figma to WP</div>
+      <div class="chip">Responsive</div>
+      <div class="chip">eCommerce</div>
+    </div>
+  </div>
+
+  <div class="accent-line"></div>
+
+</div>
 </body>
 </html>

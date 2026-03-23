@@ -66,10 +66,14 @@
       background-size: 30px 30px; z-index: 1;
     }
     .bg-e {
-      position: absolute; right: -40px; top: 50%; transform: translateY(-50%);
-      font-family: 'Syne', sans-serif; font-weight: 800; font-size: 620px; line-height: 1;
-      color: rgba(237,1,238,0.05); letter-spacing: -20px;
+      position: absolute; right: -80px; top: 50%; transform: translateY(-50%);
+      width: 680px; height: 680px;
       z-index: 1; user-select: none; pointer-events: none;
+      opacity: 0.04;
+    }
+    .bg-e img {
+      width: 100%; height: 100%;
+      object-fit: contain;
     }
     .bg-slash {
       position: absolute; top: 0; bottom: 0; left: 700px; width: 1.5px;
@@ -193,6 +197,11 @@
       opacity: 0.9;
       filter: drop-shadow(0 0 8px rgba(237,1,238,0.4));
     }
+    .brand-corner__logo-wordpress {
+      height: 60px;
+      width: auto;
+      opacity: 0.85;
+    }
     .brand-corner__pulse { width: 7px; height: 7px; border-radius: 50%; background: #ED01EE; box-shadow: 0 0 8px rgba(237,1,238,0.9); }
     .brand-corner__text { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: rgba(255,184,229,0.5); text-transform: uppercase; letter-spacing: 0.16em; }
   </style>
@@ -206,7 +215,9 @@
     <div class="bg-glow3"></div>
     <div class="bg-band"></div>
     <div class="bg-dots"></div>
-    <div class="bg-e">E</div>
+    <div class="bg-e">
+      <img src="../images/Elementor-White-400x70.svg" alt="Elementor">
+    </div>
     <div class="bg-slash"></div>
 
     <div class="left-content">
@@ -236,6 +247,9 @@
         <div class="tag"><div class="tag__dot"></div><span class="tag__text">Elementor Pro</span></div>
         <div class="tag"><div class="tag__dot"></div><span class="tag__text">WooCommerce</span></div>
         <div class="tag"><div class="tag__dot"></div><span class="tag__text">Custom Widgets</span></div>
+        <div class="tag"><div class="tag__dot"></div><span class="tag__text">Crocoblock</span></div>
+        <div class="tag"><div class="tag__dot"></div><span class="tag__text">Booking Systems</span></div>
+        
       </div>
 
       <div class="stats">
@@ -256,6 +270,7 @@
     <div class="brand-corner">
       <div class="brand-corner__pulse"></div>
       <img src="../images/Elementor-Pink-400x70.svg" alt="Elementor" class="brand-corner__logo">
+      <img src="../images/WordPress-logotype-standard-white.png" alt="WordPress" class="brand-corner__logo-wordpress">
     </div>
   </div>
 </body>
