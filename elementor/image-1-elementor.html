@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1280">
+  <title>Image 1 — Elementor Expert</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #111; }
+
+    .canvas {
+      width: 1280px; height: 769px;
+      overflow: hidden; position: relative;
+      background: #080808;
+      display: flex;
+    }
+
+    /* Codeberry deep sweep from right */
+    .bg-sweep {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 110% at 100% 50%,
+        #620856 0%, rgba(98,8,86,0.55) 35%, transparent 62%);
+      z-index: 0;
+    }
+    /* Codeberry secondary sweep — top left corner warmth */
+    .bg-sweep2 {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 45% 55% at 0% 0%,
+        rgba(98,8,86,0.4) 0%, transparent 60%);
+      z-index: 0;
+    }
+    /* Neon Loop main bloom — behind photo */
+    .bg-glow {
+      position: absolute; width: 520px; height: 520px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(237,1,238,0.26) 0%, transparent 68%);
+      top: 50%; left: 67%; transform: translate(-50%,-50%); z-index: 1;
+    }
+    /* Pixel Bush soft glow — upper right */
+    .bg-glow2 {
+      position: absolute; width: 320px; height: 320px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,184,229,0.12) 0%, transparent 70%);
+      top: -60px; right: 60px; z-index: 1;
+    }
+    /* Neon Loop small flare — lower left */
+    .bg-glow3 {
+      position: absolute; width: 260px; height: 260px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(237,1,238,0.14) 0%, transparent 70%);
+      bottom: -40px; left: 120px; z-index: 1;
+    }
+    /* Pixel Bush horizontal band — subtle mid stripe */
+    .bg-band {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg,
+        transparent 30%,
+        rgba(255,184,229,0.04) 50%,
+        transparent 70%);
+      z-index: 1;
+    }
+    /* Brand dot grid */
+    .bg-dots {
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle, rgba(237,1,238,0.09) 1px, transparent 1px);
+      background-size: 30px 30px; z-index: 1;
+    }
+    .bg-e {
+      position: absolute; right: -40px; top: 50%; transform: translateY(-50%);
+      font-family: 'Syne', sans-serif; font-weight: 800; font-size: 620px; line-height: 1;
+      color: rgba(237,1,238,0.05); letter-spacing: -20px;
+      z-index: 1; user-select: none; pointer-events: none;
+    }
+    .bg-slash {
+      position: absolute; top: 0; bottom: 0; left: 700px; width: 1.5px;
+      background: linear-gradient(180deg,
+        transparent 0%, rgba(237,1,238,0.15) 20%,
+        rgba(237,1,238,0.55) 50%, rgba(237,1,238,0.15) 80%, transparent 100%);
+      transform: skewX(-6deg); z-index: 2;
+    }
+
+    /* LEFT */
+    .left-content {
+      width: 700px; height: 769px;
+      padding: 46px 56px;
+      display: flex; flex-direction: column; justify-content: center; gap: 22px;
+      position: relative; z-index: 5;
+    }
+
+    .eyebrow-row { display: flex; align-items: center; gap: 10px; }
+    .eyebrow-icon {
+      width: 26px; height: 26px; border-radius: 5px;
+      background: #ED01EE;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; box-shadow: 0 0 12px rgba(237,1,238,0.5);
+    }
+    .eyebrow-icon img { width: 14px; height: 14px; }
+    .eyebrow-badge {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: linear-gradient(135deg, #ED01EE 0%, #620856 100%);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; box-shadow: 0 0 12px rgba(237,1,238,0.5);
+      border: 2px solid rgba(255,184,229,0.3);
+    }
+    .eyebrow-badge img { width: 18px; height: 18px; }
+    .eyebrow {
+      font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
+      color: #FFB8E5; text-transform: uppercase; letter-spacing: 0.14em;
+    }
+
+    /* Headline — "PIXEL-PERFECT" small, "ELEMENTOR WEBSITES" big */
+    .headline { font-family: 'Syne', sans-serif; font-weight: 800; text-transform: uppercase; line-height: 0.93; letter-spacing: -1.5px; position: relative; z-index: 10; }
+    .headline .line-small {
+      font-size: 36px; color: #777777; letter-spacing: 0.08em;
+      font-weight: 700; display: block; margin-bottom: 6px;
+    }
+    .headline .line-big {
+      font-size: 76px; letter-spacing: -2.5px; display: block;
+    }
+    .headline .line-big.line-accent {
+      color: #ED01EE;
+    }
+    .headline .line-white { color: #f0f0f0; }
+
+    .divider { width: 48px; height: 2.5px; background: linear-gradient(90deg, #ED01EE, transparent); border-radius: 2px; }
+
+    .description {
+      font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500;
+      color: #777777; line-height: 1.6; max-width: 460px;
+    }
+
+    .service-tags { display: flex; flex-wrap: wrap; gap: 9px; }
+    .tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 14px 8px 10px; border-radius: 6px;
+      border: 1px solid rgba(237,1,238,0.28);
+      background: rgba(15,15,15,0.9);
+      position: relative; overflow: hidden;
+    }
+    .tag::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+      width: 2px; background: #ED01EE; border-radius: 2px 0 0 2px;
+    }
+    .tag__dot { width: 6px; height: 6px; border-radius: 50%; background: #00ea1c; box-shadow: 0 0 5px rgba(0,234,28,0.7); flex-shrink: 0; }
+    .tag__text { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; color: #f0f0f0; letter-spacing: 0.03em; }
+
+    .stats { display: flex; gap: 12px; }
+    .stat-box {
+      border: 1px solid rgba(98,8,86,0.85);
+      border-top: 1px solid rgba(237,1,238,0.4);
+      border-radius: 8px; padding: 15px 20px;
+      background: #0f0f0f; min-width: 106px;
+    }
+    .stat-number { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 32px; color: #00ea1c; line-height: 1; }
+    .stat-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: rgba(255,184,229,0.65); text-transform: uppercase; letter-spacing: 0.12em; margin-top: 6px; }
+
+    /* PHOTO */
+    .photo-section { flex: 1; height: 769px; position: relative; z-index: 4; }
+    .photo-section img {
+      width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block;
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.25) 10%, rgba(0,0,0,0.75) 25%, black 42%);
+      mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.25) 10%, rgba(0,0,0,0.75) 25%, black 42%);
+    }
+    .photo-tint {
+      position: absolute; inset: 0;
+      background: linear-gradient(160deg, rgba(98,8,86,0.12) 0%, transparent 55%);
+      z-index: 5; pointer-events: none;
+    }
+
+    /* BADGE */
+    .review-badge {
+      position: absolute; top: 22px; right: 22px;
+      background: linear-gradient(135deg, #ED01EE 0%, #620856 100%);
+      padding: 10px 18px; border-radius: 6px; z-index: 10;
+      box-shadow: 0 0 20px rgba(237,1,238,0.45);
+    }
+    .review-badge span { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; color: #FAE4FA; letter-spacing: 0.04em; }
+
+    .accent-line {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent 0%, #620856 15%, #ED01EE 42%, #00ea1c 58%, rgba(0,234,28,0.3) 80%, transparent 100%);
+      z-index: 10;
+    }
+
+    .brand-corner {
+      position: absolute; bottom: 18px; left: 56px;
+      display: flex; align-items: center; gap: 12px;
+      z-index: 6;
+    }
+    .brand-corner__logo {
+      height: 28px;
+      width: auto;
+      opacity: 0.9;
+      filter: drop-shadow(0 0 8px rgba(237,1,238,0.4));
+    }
+    .brand-corner__pulse { width: 7px; height: 7px; border-radius: 50%; background: #ED01EE; box-shadow: 0 0 8px rgba(237,1,238,0.9); }
+    .brand-corner__text { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: rgba(255,184,229,0.5); text-transform: uppercase; letter-spacing: 0.16em; }
+  </style>
+</head>
+<body>
+  <div class="canvas">
+    <div class="bg-sweep"></div>
+    <div class="bg-sweep2"></div>
+    <div class="bg-glow"></div>
+    <div class="bg-glow2"></div>
+    <div class="bg-glow3"></div>
+    <div class="bg-band"></div>
+    <div class="bg-dots"></div>
+    <div class="bg-e">E</div>
+    <div class="bg-slash"></div>
+
+    <div class="left-content">
+      <div class="eyebrow-row">
+        <div class="eyebrow-icon">
+          <img src="../images/E-White-32x32.svg" alt="Elementor Logo">
+        </div>
+       
+        <div class="eyebrow">Elementor &amp; WordPress Expert</div>
+      </div>
+
+      <div class="headline">
+        <span class="line-small">Pixel-Perfect</span>
+        <span class="line-big line-accent">ELEMENTOR</span>
+        <span class="line-big line-white">WEBSITES</span>
+      </div>
+
+      <div class="divider"></div>
+
+      <p class="description">
+        Figma designs → live WordPress sites. Elementor Pro builds,<br>
+        WooCommerce stores &amp; custom widget development.
+      </p>
+
+      <div class="service-tags">
+        <div class="tag"><div class="tag__dot"></div><span class="tag__text">Figma to Elementor</span></div>
+        <div class="tag"><div class="tag__dot"></div><span class="tag__text">Elementor Pro</span></div>
+        <div class="tag"><div class="tag__dot"></div><span class="tag__text">WooCommerce</span></div>
+        <div class="tag"><div class="tag__dot"></div><span class="tag__text">Custom Widgets</span></div>
+      </div>
+
+      <div class="stats">
+        <div class="stat-box"><div class="stat-number">70+</div><div class="stat-label">Reviews</div></div>
+        <div class="stat-box"><div class="stat-number">19</div><div class="stat-label">Countries</div></div>
+        <div class="stat-box"><div class="stat-number">5 YRS</div><div class="stat-label">Experience</div></div>
+      </div>
+    </div>
+
+    <div class="photo-section">
+      <img src="../images/shohidul-i-razu.png" alt="">
+      <div class="photo-tint"></div>
+    </div>
+
+    <div class="review-badge"><span>★ 70+ Five-Star Reviews</span></div>
+
+    <div class="accent-line"></div>
+    <div class="brand-corner">
+      <div class="brand-corner__pulse"></div>
+      <img src="../images/Elementor-Pink-400x70.svg" alt="Elementor" class="brand-corner__logo">
+    </div>
+  </div>
+</body>
+</html>

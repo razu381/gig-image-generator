@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WordPress & Elementor Gig Image 2</title>
+  <link href="../output.css" rel="stylesheet">
+  <link href="../base.css" rel="stylesheet">
+
+  <!-- Icon Libraries -->
+  <!-- Devicon (official tech brand logos, colored) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"/>
+
+  <!-- Tabler Icons (clean UI icons) -->
+  <script src="https://cdn.jsdelivr.net/npm/@tabler/icons@latest/icons-react/dist/index.umd.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont/dist/tabler-icons.min.css"/>
+</head>
+<body>
+  <div class="canvas bg-grid" style="background: #0a0a0a;">
+    <!-- Radial gradient overlay for green warmth in corners -->
+    <div style="
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 900px 600px at 20% 50%, rgba(0,234,28,0.04) 0%, transparent 70%),
+                  radial-gradient(ellipse 600px 800px at 85% 50%, rgba(0,234,28,0.07) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    "></div>
+    <!-- Left Content Column -->
+    <div class="left-content" style="
+      width: 860px;
+      padding-left: 64px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 769px;
+      gap: 24px;
+    ">
+      <!-- Row 1 - Eyebrow -->
+      <div>
+        <div class="eyebrow">What's included</div>
+      </div>
+
+      <!-- Row 2 - Headline -->
+      <div style="font-family: 'Syne', sans-serif;">
+        <div style="
+          font-weight: 800;
+          font-size: 64px;
+          color: #f0f0f0;
+          text-transform: uppercase;
+          letter-spacing: -2px;
+          line-height: 0.95;
+        ">
+          EVERYTHING YOUR
+        </div>
+        <div style="
+          font-weight: 800;
+          font-size: 64px;
+          color: #00ea1c;
+          text-transform: uppercase;
+          letter-spacing: -2px;
+          line-height: 0.95;
+        ">
+          SITE NEEDS
+        </div>
+      </div>
+
+      <!-- Divider Rule -->
+      <div style="
+        width: 100%;
+        height: 1px;
+        background: rgba(0,234,28,0.35);
+      "></div>
+
+      <!-- Row 4 - Services Grid -->
+      <div style="
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      ">
+        <!-- Service 1 -->
+        <div style="
+          background: linear-gradient(135deg, #111111 0%, #0d0d0d 100%);
+          border: 1px solid rgba(0, 234, 28, 0.15);
+          border-radius: 10px;
+          padding: 18px 20px;
+          display: flex;
+          align-items: flex-start;
+          gap: 14px;
+          position: relative;
+          overflow: hidden;
+        ">
+          <div style="
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, #00ea1c, transparent);
+          "></div>
+          <div style="
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: rgba(0, 234, 28, 0.08);
+            border: 1px solid rgba(0, 234, 28, 0.20);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+          ">
+            <i class="ti ti-layout" style="font-size: 18px; color: #00ea1c;"></i>
+          </div>
+          <div style="display: flex; flex-direction: column;">
+            <div style="font-family: 'Syne', sans-serif; font-weight: 600; font-size: 14px; color: #f0f0f0; margin-bottom: 4px;">Custom Page Design</div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-weight: 400; font-size: 10px; color: #555555; text-transform: uppercase; letter-spacing: 0.10em;">Elementor Pro · Full control</div>
+          </div>
+        </div>
+
+        <!-- Service 2 -->
+        <div style="
+          background: linear-gradient(135deg, #111111 0%, #0d0d0d 100%);
+          border: 1px solid rgba(0, 234, 28, 0.15);
+          border-radius: 10px;
+          padding: 18px 20px;
+          display: flex;
+          align-items: flex-start;
+          gap: 14px;
+          position: relative;
+          overflow: hidden;
+        ">
+          <div style="
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, #00ea1c, transparent);
+          "></div>
+          <div style="
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: rgba(0, 234, 28, 0.08);
+            border: 1px solid rgba(0, 234, 28, 0.20);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+          ">
+            <i class="ti ti-shopping-cart" style="font-size: 18px; color: #00ea1c;"></i>
+          </div>
+          <div style="display: flex; flex-direction: column;">
+            <div style="font-family: 'Syne', sans-serif; font-weight: 600; font-size: 14px; color: #f0f0f0; margin-bottom: 4px;">WooCommerce Store</div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-weight: 400; font-size: 10px; color: #555555; text-transform: uppercase; letter-spacing: 0.10em;">Products · Payments · Orders</div>
+          </div>
+        </div>
+
+        <!-- Service 3 -->
+        <div style="
+          background: linear-gradient(135deg, #111111 0%, #0d0d0d 100%);
+          border: 1px solid rgba(0, 234, 28, 0.15);
+          border-radius: 10px;
+          padding: 18px 20px;
+          display: flex;
+          align-items: flex-start;
+          gap: 14px;
+          position: relative;
+          overflow: hidden;
+        ">
+          <div style="
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, #00ea1c, transparent);
+          "></div>
+          <div style="
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: rgba(0, 234, 28, 0.08);
+            border: 1px solid rgba(0, 234, 28, 0.20);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+          ">
+            <i class="ti ti-viewport-wide" style="font-size: 18px; color: #00ea1c;"></i>
+          </div>
+          <div style="display: flex; flex-direction: column;">
+            <div style="font-family: 'Syne', sans-serif; font-weight: 600; font-size: 14px; color: #f0f0f0; margin-bottom: 4px;">Responsive Layout</div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-weight: 400; font-size: 10px; color: #555555; text-transform: uppercase; letter-spacing: 0.10em;">Mobile · Tablet · Desktop</div>
+          </div>
+        </div>
+
+        <!-- Service 4 -->
+        <div style="
+          background: linear-gradient(135deg, #111111 0%, #0d0d0d 100%);
+          border: 1px solid rgba(0, 234, 28, 0.15);
+          border-radius: 10px;
+          padding: 18px 20px;
+          display: flex;
+          align-items: flex-start;
+          gap: 14px;
+          position: relative;
+          overflow: hidden;
+        ">
+          <div style="
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, #00ea1c, transparent);
+          "></div>
+          <div style="
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: rgba(0, 234, 28, 0.08);
+            border: 1px solid rgba(0, 234, 28, 0.20);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+          ">
+            <i class="ti ti-brand-figma" style="font-size: 18px; color: #00ea1c;"></i>
+          </div>
+          <div style="display: flex; flex-direction: column;">
+            <div style="font-family: 'Syne', sans-serif; font-weight: 600; font-size: 14px; color: #f0f0f0; margin-bottom: 4px;">Figma to WordPress</div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-weight: 400; font-size: 10px; color: #555555; text-transform: uppercase; letter-spacing: 0.10em;">Pixel-perfect conversion</div>
+          </div>
+        </div>
+
+        <!-- Service 5 -->
+        <div style="
+          background: linear-gradient(135deg, #111111 0%, #0d0d0d 100%);
+          border: 1px solid rgba(0, 234, 28, 0.15);
+          border-radius: 10px;
+          padding: 18px 20px;
+          display: flex;
+          align-items: flex-start;
+          gap: 14px;
+          position: relative;
+          overflow: hidden;
+        ">
+          <div style="
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, #00ea1c, transparent);
+          "></div>
+          <div style="
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: rgba(0, 234, 28, 0.08);
+            border: 1px solid rgba(0, 234, 28, 0.20);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+          ">
+            <i class="ti ti-bolt" style="font-size: 18px; color: #00ea1c;"></i>
+          </div>
+          <div style="display: flex; flex-direction: column;">
+            <div style="font-family: 'Syne', sans-serif; font-weight: 600; font-size: 14px; color: #f0f0f0; margin-bottom: 4px;">Speed Optimization</div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-weight: 400; font-size: 10px; color: #555555; text-transform: uppercase; letter-spacing: 0.10em;">Core Web Vitals · LCP · CLS</div>
+          </div>
+        </div>
+
+        <!-- Service 6 -->
+        <div style="
+          background: linear-gradient(135deg, #111111 0%, #0d0d0d 100%);
+          border: 1px solid rgba(0, 234, 28, 0.15);
+          border-radius: 10px;
+          padding: 18px 20px;
+          display: flex;
+          align-items: flex-start;
+          gap: 14px;
+          position: relative;
+          overflow: hidden;
+        ">
+          <div style="
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, #00ea1c, transparent);
+          "></div>
+          <div style="
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: rgba(0, 234, 28, 0.08);
+            border: 1px solid rgba(0, 234, 28, 0.20);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+          ">
+            <i class="ti ti-refresh" style="font-size: 18px; color: #00ea1c;"></i>
+          </div>
+          <div style="display: flex; flex-direction: column;">
+            <div style="font-family: 'Syne', sans-serif; font-weight: 600; font-size: 14px; color: #f0f0f0; margin-bottom: 4px;">Crocoblock / JetPlugins</div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-weight: 400; font-size: 10px; color: #555555; text-transform: uppercase; letter-spacing: 0.10em;">Dynamic content · CPT · ACF</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 5 - Stat Row -->
+      <div style="display: flex; gap: 32px;">
+        <!-- Stat 1 -->
+        <div style="
+          background: linear-gradient(135deg, #111111 0%, #0d0d0d 100%);
+          border: 1px solid rgba(0, 234, 28, 0.20);
+          border-left: 3px solid #00ea1c;
+          border-radius: 10px;
+          padding: 22px 24px;
+          display: flex;
+          flex-direction: column;
+        ">
+          <div style="font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 52px; color: #00ea1c; line-height: 1;">70+</div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-weight: 400; font-size: 10px; color: #555555; text-transform: uppercase; letter-spacing: 0.16em; margin-top: 6px;">FIVE-STAR REVIEWS</div>
+        </div>
+
+        <!-- Stat 2 -->
+        <div style="
+          background: linear-gradient(135deg, #111111 0%, #0d0d0d 100%);
+          border: 1px solid rgba(0, 234, 28, 0.20);
+          border-left: 3px solid #00ea1c;
+          border-radius: 10px;
+          padding: 22px 24px;
+          display: flex;
+          flex-direction: column;
+        ">
+          <div style="font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 52px; color: #00ea1c; line-height: 1;">19</div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-weight: 400; font-size: 10px; color: #555555; text-transform: uppercase; letter-spacing: 0.16em; margin-top: 6px;">COUNTRIES SERVED</div>
+        </div>
+
+        <!-- Stat 3 -->
+        <div style="
+          background: linear-gradient(135deg, #111111 0%, #0d0d0d 100%);
+          border: 1px solid rgba(0, 234, 28, 0.20);
+          border-left: 3px solid #00ea1c;
+          border-radius: 10px;
+          padding: 22px 24px;
+          display: flex;
+          flex-direction: column;
+        ">
+          <div style="font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 52px; color: #00ea1c; line-height: 1;">5 YRS</div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-weight: 400; font-size: 10px; color: #555555; text-transform: uppercase; letter-spacing: 0.16em; margin-top: 6px;">EXPERIENCE</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Photo Column -->
+    <div class="photo-column" style="
+      width: 360px;
+      height: 769px;
+      position: absolute;
+      right: 0;
+      top: 0;
+    ">
+      <!-- Photo glow effect (behind photo) -->
+      <div style="
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 420px;
+        height: 100%;
+        background: radial-gradient(ellipse 340px 500px at 80% 40%, rgba(0,234,28,0.18) 0%, transparent 65%);
+        z-index: 0;
+        pointer-events: none;
+      "></div>
+      
+      <!-- Developer Photo -->
+      <img id="developer-photo" src="../images/shohidul-i-razu.png" alt="Developer photo" style="
+        width: 360px;
+        height: 769px;
+        object-fit: cover;
+        object-position: center top;
+        display: block;
+        z-index: 1;
+        position: relative;
+      ">
+
+      <!-- Gradient overlay (always present for blend effect) -->
+      <div style="
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 120px;
+        height: 100%;
+        background: linear-gradient(90deg, #0a0a0a 0%, transparent 100%);
+        z-index: 2;
+        pointer-events: none;
+      "></div>
+    </div>
+  </div>
+</body>
+</html>
