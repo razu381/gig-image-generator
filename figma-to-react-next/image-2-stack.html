@@ -64,13 +64,13 @@
 </head>
 
 <body>
-  <div class="canvas bg-grid flex flex-col justify-center items-center relative">
+  <div class="relative flex flex-col items-center justify-center canvas bg-grid">
 
     <!-- ── SECTION 1 — HEADLINE ── -->
     <div style="padding-left:64px;padding-right:64px;padding-top:0;padding-bottom:0;"
       class="flex-shrink-0 relative z-[2] text-center">
 
-      <div class="font-heading text-[#f0f0f0] uppercase leading-[1] headline-top">
+      <div class="font-heading text-[#f0f0f0] uppercase leading-[1] headline-top mb-6">
         PIXEL-PERFECT
       </div>
 
@@ -126,9 +126,8 @@
 
           <div class="inline-flex items-center gap-2.5 bg-surface-1 border border-white/6 rounded-tag py-2.5 px-[18px]">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <rect width="24" height="24" rx="3" fill="#3178C6" />
-              <path d="M13.5 11.5H16.5V13H15.2V18H13.5V11.5Z" fill="white" />
-              <path d="M12.5 11.5V13H10.5V18H8.8V13H6.8V11.5H12.5Z" fill="white" />
+              <rect width="24" height="24" rx="3" fill="#3178C6"/>
+              <text x="4" y="17" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="white">TS</text>
             </svg>
             <span class="font-mono text-[12px] text-primary tracking-[0.04em]">TypeScript</span>
           </div>
@@ -222,10 +221,10 @@
       <div style="width:360px;flex-shrink:0;display:flex;flex-direction:column;justify-content:center;">
 
         <div
-          class="bg-surface-1 border border-white/6 border-t-2 border-t-accent rounded-card overflow-hidden flex flex-col">
+          class="flex flex-col overflow-hidden border border-t-2 bg-surface-1 border-white/6 border-t-accent rounded-card">
 
           <!-- Header -->
-          <div class="h-10 bg-surface-2 border-b border-white/6 flex items-center px-4 gap-2 flex-shrink-0">
+          <div class="flex items-center flex-shrink-0 h-10 gap-2 px-4 border-b bg-surface-2 border-white/6">
             <div class="w-2.5 h-2.5 rounded-full bg-[#ff5f57] flex-shrink-0"></div>
             <div class="w-2.5 h-2.5 rounded-full bg-[#ffbd2e] flex-shrink-0"></div>
             <div class="w-2.5 h-2.5 rounded-full bg-[#28c840] flex-shrink-0"></div>
