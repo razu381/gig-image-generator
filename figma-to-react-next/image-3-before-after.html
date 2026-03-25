@@ -20,6 +20,45 @@
       overflow: hidden !important;
     }
 
+    body {
+      display: flex; align-items: center; justify-content: center;
+      background: #252525;
+    }
+
+    .canvas {
+      background: #1e2525;
+      position: relative;
+    }
+
+    /* Grid — slightly more visible */
+    .canvas::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,234,28,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,234,28,0.08) 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: 0;
+    }
+
+    /* Brighter ambient glow with multiple light sources for depth */
+    .canvas::after {
+      content: '';
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 55% 60% at -8% 0%, rgba(0,234,28,0.15) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 50% at 108% 100%, rgba(0,234,28,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 35% 45% at 50% -10%, rgba(0,234,28,0.08) 0%, transparent 55%),
+        radial-gradient(ellipse 30% 40% at 120% 50%, rgba(0,234,28,0.06) 0%, transparent 50%);
+    }
+    /* Left-side ambient glow for balance */
+    .bg-left-glow {
+      position: absolute; inset: 0; z-index: 1;
+      background: radial-gradient(circle at 15% 50%, rgba(0,234,28,0.10), rgba(0,0,0,0) 45%);
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+
     /* Fight color: inherit from input.css on specific elements */
     .force-white {
       color: #f0f0f0 !important;
@@ -53,6 +92,7 @@
 
 <body>
   <div class="canvas bg-dots" style="position:relative;">
+    <div class="bg-left-glow"></div>
 
     <!-- ── VERTICAL DIVIDER ── -->
     <div style="position:absolute;top:0;left:640px;width:1px;height:100%;background:#00ea1c;z-index:20;"></div>
@@ -84,7 +124,7 @@
           <path d="M8 31.5C8 34.52 10.43 37 13.5 37H19V26H13.5C10.43 26 8 28.48 8 31.5Z" fill="#A259FF" />
         </svg>
         <span
-          style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#00ea1c;text-transform:uppercase;letter-spacing:0.16em;">FIGMA
+          style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#00ea1c;text-transform:uppercase;letter-spacing:0.16em;">FIGMA
           DESIGN FILE</span>
         <!-- Toolbar pills -->
         <div style="margin-left:auto;display:flex;gap:6px;">
@@ -129,7 +169,7 @@
 
           <!-- Figma element label -->
           <div
-            style="position:absolute;top:-20px;left:0;font-family:'JetBrains Mono',monospace;font-size:9px;color:#0d99ff;white-space:nowrap;">
+            style="position:absolute;top:-20px;left:0;font-family:'JetBrains Mono',monospace;font-size:12px;color:#0d99ff;white-space:nowrap;">
             Frame 1 / Hero Section</div>
 
           <!-- === MOCKUP CONTENT === -->

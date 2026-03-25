@@ -88,7 +88,7 @@ body {
 
 .pill__text {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
+  font-size: 14px;
   color: #00ea1c;
   text-transform: uppercase;
   letter-spacing: 0.14em;
@@ -106,7 +106,7 @@ body {
 
 .review-badge__text {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   color: #00ea1c;
   text-transform: uppercase;
@@ -117,9 +117,9 @@ body {
 .chip {
   border: 1px solid rgba(0, 234, 28, 0.20);
   border-radius: 4px;
-  padding: 4px 14px;
+  padding: 5px 16px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 13px;
   color: #00ea1c;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -147,7 +147,7 @@ body {
 
 .stat-block__label {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
+  font-size: 13px;
   color: #555555;
   text-transform: uppercase;
   letter-spacing: 0.16em;
@@ -166,7 +166,7 @@ body {
 
 .tech-badge__name {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
+  font-size: 14px;
   color: #f0f0f0;
   letter-spacing: 0.04em;
 }
@@ -195,9 +195,28 @@ body {
 
 .code-card__filename {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 13px;
   color: #555555;
   margin-left: 8px;
+}
+
+/* ── Left-side ambient glow for balance ── */
+.bg-left-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(circle at 15% 50%, rgba(0, 234, 28, 0.10), rgba(0, 0, 0, 0) 45%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+/* ── Eyebrow label (increased for readability) ── */
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  color: rgba(255, 184, 229, 0.85);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
 }
 
 .code-card__body {

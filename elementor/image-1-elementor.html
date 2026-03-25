@@ -82,13 +82,29 @@
         rgba(237,1,238,0.55) 50%, rgba(237,1,238,0.15) 80%, transparent 100%);
       transform: skewX(-6deg); z-index: 2;
     }
+    /* Left-side ambient glow for balance */
+    .bg-left-glow {
+      position: absolute; inset: 0; z-index: 1;
+      background: radial-gradient(circle at 15% 50%, rgba(237,1,238,0.12), rgba(0,0,0,0) 45%);
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
 
     /* LEFT */
     .left-content {
       width: 700px; height: 769px;
-      padding: 46px 56px;
+      padding: 50px 80px;
       display: flex; flex-direction: column; justify-content: center; gap: 22px;
       position: relative; z-index: 5;
+    }
+    .left-content::before {
+      content: '';
+      position: absolute;
+      top: 5%; left: -10%; right: 40%; bottom: 5%;
+      background: radial-gradient(circle at 25% 50%, rgba(237,1,238,0.08), rgba(0,0,0,0) 50%);
+      mix-blend-mode: screen;
+      pointer-events: none;
+      z-index: -1;
     }
 
     .eyebrow-row { display: flex; align-items: center; gap: 10px; }
@@ -115,7 +131,7 @@
     /* Headline — "PIXEL-PERFECT" small, "ELEMENTOR WEBSITES" big */
     .headline { font-family: 'Syne', sans-serif; font-weight: 800; text-transform: uppercase; line-height: 0.93; letter-spacing: -1.5px; position: relative; z-index: 10; }
     .headline .line-small {
-      font-size: 36px; color: #777777; letter-spacing: 0.08em;
+      font-size: 36px; color: #ffffff; letter-spacing: 0.08em;
       font-weight: 700; display: block; margin-bottom: 6px;
     }
     .headline .line-big {
@@ -129,8 +145,8 @@
     .divider { width: 48px; height: 2.5px; background: linear-gradient(90deg, #ED01EE, transparent); border-radius: 2px; }
 
     .description {
-      font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500;
-      color: #777777; line-height: 1.6; max-width: 460px;
+      font-family: 'Inter', sans-serif; font-size: 19px; font-weight: 500;
+      color: #ffffff; line-height: 1.5; max-width: 460px;
     }
 
     .service-tags { display: flex; flex-wrap: wrap; gap: 9px; }
@@ -146,7 +162,7 @@
       width: 2px; background: #ED01EE; border-radius: 2px 0 0 2px;
     }
     .tag__dot { width: 6px; height: 6px; border-radius: 50%; background: #00ea1c; box-shadow: 0 0 5px rgba(0,234,28,0.7); flex-shrink: 0; }
-    .tag__text { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; color: #f0f0f0; letter-spacing: 0.03em; }
+    .tag__text { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; color: #f0f0f0; letter-spacing: 0.03em; }
 
     .stats { display: flex; gap: 12px; }
     .stat-box {
@@ -156,7 +172,7 @@
       background: #0f0f0f; min-width: 106px;
     }
     .stat-number { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 32px; color: #00ea1c; line-height: 1; }
-    .stat-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: rgba(255,184,229,0.65); text-transform: uppercase; letter-spacing: 0.12em; margin-top: 6px; }
+    .stat-label { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; color: rgba(255,184,229,0.65); text-transform: uppercase; letter-spacing: 0.12em; margin-top: 6px; }
 
     /* PHOTO */
     .photo-section { flex: 1; height: 769px; position: relative; z-index: 4; }
@@ -219,6 +235,7 @@
       <img src="../images/Elementor-White-400x70.svg" alt="Elementor">
     </div>
     <div class="bg-slash"></div>
+    <div class="bg-left-glow"></div>
 
     <div class="left-content">
       <div class="eyebrow-row">
