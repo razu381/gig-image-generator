@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Next.js Landing Page Development</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    :root {
+      --green: #00ea1c;
+      --green-dim: rgba(0,234,28,0.12);
+      --green-mid: rgba(0,234,28,0.25);
+      --bg-dark: #0a0d0a;
+      --bg-mid: #121a12;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100vh;
+      background: #0d0d0d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      overflow-x: hidden;
+    }
+
+    .canvas {
+      width: 100%;
+      max-width: 1280px;
+      aspect-ratio: 1280 / 800;
+      min-height: 500px;
+      position: relative;
+      background: var(--bg-dark);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @media (max-width: 900px) {
+      .canvas { grid-template-columns: 1fr; aspect-ratio: auto; min-height: 700px; }
+    }
+
+    /* ─── AMBIENT BACKGROUND ─── */
+    .bg-orb-1 {
+      position: absolute;
+      width: clamp(200px, 40vw, 500px);
+      height: clamp(200px, 40vw, 500px);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,234,28,0.15) 0%, transparent 70%);
+      top: -10%; right: -5%;
+      filter: blur(40px);
+      animation: float 8s ease-in-out infinite;
+    }
+    .bg-orb-2 {
+      position: absolute;
+      width: clamp(150px, 30vw, 350px);
+      height: clamp(150px, 30vw, 350px);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,234,28,0.08) 0%, transparent 70%);
+      bottom: -15%; left: 10%;
+      filter: blur(30px);
+      animation: float 10s ease-in-out infinite reverse;
+    }
+    .bg-lines {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(0,234,28,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,234,28,0.03) 1px, transparent 1px);
+      background-size: clamp(20px, 4vw, 40px) clamp(20px, 4vw, 40px);
+    }
+    .bg-diagonal {
+      position: absolute;
+      width: 2px;
+      height: 100%;
+      left: 48%;
+      background: linear-gradient(180deg, transparent, var(--green-dim), transparent);
+      transform: rotate(3deg);
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(-20px, 20px); }
+    }
+
+    /* ─── LEFT SECTION ─── */
+    .left-section {
+      position: relative;
+      z-index: 2;
+      padding: clamp(24px, 5vw, 60px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,234,28,0.08);
+      border: 1px solid var(--green-dim);
+      border-radius: 30px;
+      padding: 8px 16px;
+      width: fit-content;
+      margin-bottom: clamp(16px, 3vw, 28px);
+    }
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--green);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--green);
+    }
+    .badge-text {
+      font-size: clamp(9px, 1.2vw, 12px);
+      font-weight: 700;
+      color: var(--green);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    .eyebrow {
+      font-size: clamp(10px, 1.3vw, 13px);
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      margin-bottom: clamp(8px, 1.5vw, 12px);
+    }
+
+    .headline {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      line-height: 0.92;
+      letter-spacing: -1px;
+      margin-bottom: clamp(20px, 4vw, 36px);
+    }
+    .headline .line-1 {
+      font-size: clamp(28px, 5vw, 62px);
+      color: #fff;
+      display: block;
+    }
+    .headline .line-2 {
+      font-size: clamp(32px, 6vw, 72px);
+      color: var(--green);
+      display: block;
+    }
+    .headline .line-3 {
+      font-size: clamp(28px, 5vw, 62px);
+      color: #fff;
+      display: block;
+    }
+
+    .subtext {
+      font-size: clamp(11px, 1.4vw, 15px);
+      color: #999;
+      max-width: 90%;
+      line-height: 1.6;
+      margin-bottom: clamp(24px, 4vw, 40px);
+    }
+
+    .tech-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .tech-item {
+      width: clamp(36px, 5vw, 48px);
+      height: clamp(36px, 5vw, 48px);
+      border-radius: 10px;
+      background: rgba(0,234,28,0.05);
+      border: 1px solid var(--green-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+    .tech-item:hover {
+      background: rgba(0,234,28,0.12);
+      border-color: var(--green-mid);
+      transform: translateY(-3px);
+    }
+    .tech-item svg {
+      width: clamp(14px, 2vw, 22px);
+      height: auto;
+    }
+
+    /* ─── RIGHT SECTION ─── */
+    .right-section {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(20px, 4vw, 60px);
+    }
+
+    .profile-card {
+      position: relative;
+      width: 100%;
+      max-width: 380px;
+      aspect-ratio: 3/4;
+    }
+
+    .card-bg {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0,234,28,0.1) 0%, transparent 50%, rgba(0,234,28,0.05) 100%);
+      border-radius: 20px;
+      border: 1px solid var(--green-dim);
+    }
+    .card-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      padding: 1px;
+      background: linear-gradient(135deg, var(--green), transparent 60%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+    }
+
+    .card-inner {
+      position: absolute;
+      inset: 12px;
+      border-radius: 14px;
+      overflow: hidden;
+      background: var(--bg-mid);
+    }
+    .card-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+    }
+    .card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(18,26,18,0.9) 0%, transparent 50%);
+    }
+
+    .floating-badge {
+      position: absolute;
+      top: -15px;
+      right: -10px;
+      background: var(--green);
+      color: #000;
+      font-size: clamp(9px, 1.2vw, 11px);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 8px 14px;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0,234,28,0.4);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .stats-row {
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 12px;
+    }
+    .stat-pill {
+      background: var(--bg-dark);
+      border: 1px solid var(--green-dim);
+      border-radius: 30px;
+      padding: 10px 18px;
+      text-align: center;
+    }
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(16px, 2vw, 22px);
+      font-weight: 800;
+      color: var(--green);
+    }
+    .stat-label {
+      font-size: clamp(8px, 1vw, 10px);
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 4px 20px rgba(0,234,28,0.4); }
+      50% { box-shadow: 0 4px 30px rgba(0,234,28,0.6); }
+    }
+
+    /* ─── BOTTOM ACCENT ─── */
+    .bottom-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--green), transparent);
+      opacity: 0.5;
+    }
+
+    /* ─── RESPONSIVE TWEAKS ─── */
+    @media (max-width: 600px) {
+      .headline .line-1, .headline .line-2, .headline .line-3 {
+        font-size: 28px;
+      }
+      .profile-card { max-width: 280px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="canvas">
+    <div class="bg-orb-1"></div>
+    <div class="bg-orb-2"></div>
+    <div class="bg-lines"></div>
+    <div class="bg-diagonal"></div>
+
+    <!-- LEFT -->
+    <div class="left-section">
+      <div class="badge">
+        <div class="badge-dot"></div>
+        <span class="badge-text">70+ Five-Star Reviews</span>
+      </div>
+      
+      <div class="eyebrow">Professional Web Development</div>
+      
+      <h1 class="headline">
+        <span class="line-1">NEXT.JS</span>
+        <span class="line-2">LANDING PAGES</span>
+        <span class="line-3">THAT CONVERT</span>
+      </h1>
+      
+      <p class="subtext">
+        High-performance, SEO-optimized landing pages built with React & Next.js. 
+        Pixel-perfect, responsive, and designed to grow your business.
+      </p>
+      
+      <div class="tech-row">
+        <div class="tech-item">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="2.2" fill="#61DAFB"/><ellipse cx="12" cy="12" rx="10" ry="4" stroke="#61DAFB" stroke-width="1.1" fill="none"/><ellipse cx="12" cy="12" rx="10" ry="4" stroke="#61DAFB" stroke-width="1.1" fill="none" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" stroke="#61DAFB" stroke-width="1.1" fill="none" transform="rotate(120 12 12)"/></svg>
+        </div>
+        <div class="tech-item">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#000"/><path d="M7.5 7.5H9.5L16.5 17H14.5L7.5 7.5Z" fill="white"/><path d="M14 7.5H16V14.5L14 12.2V7.5Z" fill="white"/></svg>
+        </div>
+        <div class="tech-item">
+          <svg viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="3" fill="#3178C6"/><text x="5" y="18" font-family="Arial" font-size="12" font-weight="bold" fill="white">TS</text></svg>
+        </div>
+        <div class="tech-item">
+          <svg viewBox="0 0 54 33" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M27 0C19.8 0 15.3 3.6 13.5 10.8C16.2 7.2 19.35 5.85 22.95 6.75C25.004 7.263 26.472 8.754 28.097 10.403C30.744 13.09 33.808 16.2 40.5 16.2C47.7 16.2 52.2 12.6 54 5.4C51.3 9 48.15 10.35 44.55 9.45C42.496 8.937 41.028 7.446 39.403 5.797C36.756 3.11 33.692 0 27 0ZM13.5 16.2C6.3 16.2 1.8 19.8 0 27C2.7 23.4 5.85 22.05 9.45 22.95C11.504 23.463 12.972 24.954 14.597 26.603C17.244 29.29 20.308 32.4 27 32.4C34.2 32.4 38.7 28.8 40.5 21.6C37.8 25.2 34.65 26.55 31.05 25.65C28.996 25.137 27.528 23.646 25.903 21.997C23.256 19.31 20.192 16.2 13.5 16.2Z" fill="#38BDF8"/></svg>
+        </div>
+        <div class="tech-item">
+          <svg viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="3" fill="#06B6D4"/><path d="M5 8H19V16H5V8Z" fill="url(#g)"/><defs><linearGradient id="g" x1="5" y1="8" x2="19" y2="16"><stop stop-color="#0EA5E9"/><stop offset="1" stop-color="#6366F1"/></linearGradient></defs></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="right-section">
+      <div class="profile-card">
+        <div class="card-bg"></div>
+        <div class="card-inner">
+          <img src="../../images/shohidul-i-razu.png" alt="Shohidul I Razu">
+          <div class="card-overlay"></div>
+        </div>
+        <div class="floating-badge">★ EXPERT</div>
+        <div class="stats-row">
+          <div class="stat-pill">
+            <div class="stat-num">70+</div>
+            <div class="stat-label">Reviews</div>
+          </div>
+          <div class="stat-pill">
+            <div class="stat-num">5★</div>
+            <div class="stat-label">Rating</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-bar"></div>
+  </div>
+</body>
+</html>

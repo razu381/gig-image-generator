@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gig Image - AI to WordPress</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #151a1a;
+    font-family: 'Syne', sans-serif;
+  }
+
+  .gig-card {
+    width: 1280px;
+    height: 769px;
+    background: #1e2525;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 80px;
+  }
+
+  /* Grid overlay */
+  .gig-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,234,28,0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,234,28,0.08) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Ambient radial glows */
+  .gig-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 55% 60% at -8% 0%, rgba(0,234,28,0.15) 0%, transparent 65%),
+      radial-gradient(ellipse 40% 50% at 108% 100%, rgba(0,234,28,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 35% 45% at 50% -10%, rgba(0,234,28,0.08) 0%, transparent 55%);
+  }
+
+  /* Corner accents */
+  .corner {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    z-index: 5;
+  }
+  .corner-tl { top: 24px; left: 24px; border-top: 2px solid rgba(0,234,28,0.5); border-left: 2px solid rgba(0,234,28,0.5); }
+  .corner-tr { top: 24px; right: 24px; border-top: 2px solid rgba(0,234,28,0.5); border-right: 2px solid rgba(0,234,28,0.5); }
+  .corner-bl { bottom: 24px; left: 24px; border-bottom: 2px solid rgba(0,234,28,0.5); border-left: 2px solid rgba(0,234,28,0.5); }
+  .corner-br { bottom: 24px; right: 24px; border-bottom: 2px solid rgba(0,234,28,0.5); border-right: 2px solid rgba(0,234,28,0.5); }
+
+  /* Dot grid top right */
+  .dot-grid {
+    position: absolute;
+    top: 36px;
+    right: 100px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+    opacity: 0.2;
+    z-index: 2;
+  }
+  .dot-grid span {
+    width: 5px;
+    height: 5px;
+    background: #00ea1c;
+    border-radius: 50%;
+    display: block;
+  }
+
+  /* ── HEADING ── */
+  .heading {
+    text-align: center;
+    margin-bottom: 56px;
+    position: relative;
+    z-index: 3;
+    animation: fadeDown 0.7s ease both;
+  }
+
+  .heading .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    font-weight: 500;
+    color: #00ea1c;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    opacity: 0.9;
+  }
+
+  .heading .main-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 96px;
+    line-height: 0.95;
+    letter-spacing: 3px;
+    color: #f2f2f2;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+  }
+
+  .heading .main-title .to-text {
+    color: #444;
+    font-size: 72px;
+    letter-spacing: 6px;
+  }
+
+  .heading .main-title .wp-chip {
+    background: #00ea1c;
+    color: #1e2525;
+    padding: 2px 26px 6px;
+    border-radius: 8px;
+    font-size: 96px;
+    box-shadow: 0 0 40px rgba(0,234,28,0.45), 0 0 80px rgba(0,234,28,0.15);
+    position: relative;
+  }
+
+  /* ── CONTENT ROW ── */
+  .content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    position: relative;
+    z-index: 3;
+    width: 100%;
+  }
+
+  /* ── PLATFORMS ── */
+  .platforms {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    animation: fadeLeft 0.7s 0.2s ease both;
+  }
+
+  .platform-bar {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 14px 28px;
+    min-width: 290px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, background 0.3s;
+  }
+
+  .platform-bar::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, #00ea1c, rgba(0,234,28,0.2));
+    border-radius: 0 2px 2px 0;
+    opacity: 0.5;
+  }
+
+  /* Platform color accents */
+  .platform-bar.wix::before        { background: #FADB00; }
+  .platform-bar.squarespace::before { background: #fff; }
+  .platform-bar.lovable::before     { background: #FF5757; }
+  .platform-bar.replit::before      { background: #F26207; }
+  .platform-bar.webflow::before     { background: #4353FF; }
+
+  .platform-bar:hover {
+    background: rgba(255,255,255,0.065);
+    border-color: rgba(255,255,255,0.15);
+  }
+
+  .icon-box {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 6px;
+  }
+
+  .icon-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  /* Backgrounds for logos — white for dark logos */
+  .platform-bar.wix        .icon-box { background: #fff; }
+  .platform-bar.squarespace .icon-box { background: #fff; }
+  .platform-bar.lovable     .icon-box { background: transparent; }
+  .platform-bar.replit      .icon-box { background: transparent; }
+  .platform-bar.webflow     .icon-box { background: transparent; }
+
+  .platform-name {
+    font-size: 35px;
+    font-weight: 700;
+    color: #e8e8e8;
+    font-family: 'Syne', sans-serif;
+    letter-spacing: 0.3px;
+  }
+
+  /* ── FUNNEL / ARROWS ── */
+  .funnel {
+    width: 180px;
+    height: 380px;
+    position: relative;
+    flex-shrink: 0;
+    animation: fadeIn 0.7s 0.35s ease both;
+  }
+
+  .funnel svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  /* ── WP DESTINATION ── */
+  .wp-destination {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    animation: fadeRight 0.7s 0.5s ease both;
+  }
+
+  .wp-circle {
+    width: 210px;
+    height: 210px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #00ea1c 0%, #00b815 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+      0 0 0 1px rgba(0,234,28,0.3),
+      0 0 50px rgba(0,234,28,0.5),
+      0 0 100px rgba(0,234,28,0.2),
+      0 0 180px rgba(0,234,28,0.08);
+    position: relative;
+  }
+
+  .wp-circle::after {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,234,28,0.2);
+    animation: pulse 2.5s ease-in-out infinite;
+  }
+
+  .wp-circle::before {
+    content: '';
+    position: absolute;
+    inset: -18px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,234,28,0.1);
+    animation: pulse 2.5s 0.8s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 0.2; transform: scale(1.03); }
+  }
+
+  .wp-logo-svg {
+    width: 130px;
+    height: 130px;
+  }
+
+  .wp-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    color: #00ea1c;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+  }
+
+  /* Badge */
+  .badge {
+    background: rgba(0,234,28,0.1);
+    border: 1px solid rgba(0,234,28,0.3);
+    border-radius: 6px;
+    padding: 6px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: #00ea1c;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ── BOTTOM TAG ── */
+  .bottom-tag {
+    position: absolute;
+    bottom: 34px;
+    left: 0; right: 0;
+    text-align: center;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+  }
+
+  .bottom-tag .tag-item {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    font-weight: 500;
+    color: #e8e8e8;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    padding: 0 28px;
+    position: relative;
+  }
+
+  .bottom-tag .tag-item:not(:last-child)::after {
+    content: '◆';
+    position: absolute;
+    right: -8px;
+    color: #00ea1c;
+    font-size: 8px;
+    opacity: 0.6;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeLeft {
+    from { opacity: 0; transform: translateX(-24px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes fadeRight {
+    from { opacity: 0; transform: translateX(24px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+
+</style>
+</head>
+<body>
+<div class="gig-card">
+
+  <div class="corner corner-tl"></div>
+  <div class="corner corner-tr"></div>
+  <div class="corner corner-bl"></div>
+  <div class="corner corner-br"></div>
+
+  <div class="dot-grid">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <!-- HEADING -->
+  <div class="heading">
+    <div class="eyebrow">// Professional Website Migration</div>
+    <div class="main-title">
+      Your Site <span class="to-text">→</span> <span class="wp-chip">WordPress</span>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="content">
+
+    <!-- Platforms -->
+    <div class="platforms">
+      <div class="platform-bar wix">
+        <div class="icon-box"><img src="../images/logos/wix-logo-1.svg" alt="Wix"></div>
+        <span class="platform-name">Wix</span>
+      </div>
+      <div class="platform-bar squarespace">
+        <div class="icon-box"><img src="../images/logos/squarespace.svg" alt="Squarespace"></div>
+        <span class="platform-name">Squarespace</span>
+      </div>
+      <div class="platform-bar lovable">
+        <div class="icon-box"><img src="../images/logos/lovable-logo-icon.svg" alt="Lovable"></div>
+        <span class="platform-name">Lovable</span>
+      </div>
+      <div class="platform-bar replit">
+        <div class="icon-box"><img src="../images/logos/replit-color.svg" alt="Replit"></div>
+        <span class="platform-name">Replit</span>
+      </div>
+      <div class="platform-bar webflow">
+        <div class="icon-box"><img src="../images/logos/webflow.svg" alt="Webflow"></div>
+        <span class="platform-name">Webflow</span>
+      </div>
+    </div>
+
+    <!-- Funnel lines (SVG) -->
+    <div class="funnel">
+      <svg viewBox="0 0 180 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#00ea1c" stop-opacity="0.15"/>
+            <stop offset="100%" stop-color="#00ea1c" stop-opacity="0.85"/>
+          </linearGradient>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="2" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+
+        <!-- Lines from each platform row to center-right point (static) -->
+        <line x1="0" y1="36"  x2="160" y2="190" stroke="url(#lg1)" stroke-width="1.5" filter="url(#glow)"/>
+        <line x1="0" y1="97"  x2="160" y2="190" stroke="url(#lg1)" stroke-width="1.5" filter="url(#glow)"/>
+        <line x1="0" y1="158" x2="160" y2="190" stroke="url(#lg1)" stroke-width="1.8" filter="url(#glow)"/>
+        <line x1="0" y1="220" x2="160" y2="190" stroke="url(#lg1)" stroke-width="1.5" filter="url(#glow)"/>
+        <line x1="0" y1="280" x2="160" y2="190" stroke="url(#lg1)" stroke-width="1.5" filter="url(#glow)"/>
+
+        <!-- End dot -->
+        <circle cx="160" cy="190" r="6" fill="#00ea1c" filter="url(#glow)" opacity="0.9"/>
+        <circle cx="160" cy="190" r="12" fill="#00ea1c" opacity="0.15"/>
+      </svg>
+    </div>
+
+    <!-- WordPress Destination -->
+    <div class="wp-destination">
+      <div class="wp-circle">
+        <!-- Inline WordPress SVG logo -->
+        <svg class="wp-logo-svg" viewBox="0 0 122.52 122.523" xmlns="http://www.w3.org/2000/svg">
+          <g fill="#1e2525">
+            <path d="M8.708 61.26c0 20.802 12.089 38.779 29.619 47.298L13.258 37.872c-2.94 7.098-4.55 14.864-4.55 23.388zM96.74 58.608c0-6.495-2.333-10.993-4.334-14.494-2.664-4.329-5.161-7.995-5.161-12.324 0-4.831 3.664-9.328 8.825-9.328.233 0 .454.029.681.042-9.35-8.566-21.807-13.796-35.489-13.796-18.36 0-34.513 9.42-43.91 23.688 1.233.037 2.395.063 3.382.063 5.497 0 14.006-.667 14.006-.667 2.833-.167 3.167 3.994.337 4.329 0 0-2.847.335-6.015.501l19.138 56.94 11.503-34.493-8.192-22.447c-2.83-.166-5.511-.501-5.511-.501-2.832-.166-2.5-4.496.332-4.329 0 0 8.676.667 13.839.667 5.496 0 14.006-.667 14.006-.667 2.835-.167 3.168 3.994.337 4.329 0 0-2.853.335-6.015.501l18.992 56.494 5.242-17.517c2.272-7.269 4.001-12.49 4.001-16.989z"/>
+            <path d="M62.184 65.857l-15.767 45.819c4.708 1.384 9.687 2.141 14.845 2.141 6.12 0 11.989-1.058 17.452-2.979a3.096 3.096 0 0 1-.255-.49L62.184 65.857zM107.376 36.046a48.422 48.422 0 0 1 .416 6.395c0 6.327-1.18 13.430-4.751 22.310l-19.070 55.137c18.565-10.819 31.050-30.985 31.050-54.028a61.143 61.143 0 0 0-7.645-29.814z"/>
+            <path d="M61.262 0C27.483 0 0 27.481 0 61.26c0 33.783 27.483 61.263 61.262 61.263 33.778 0 61.265-27.48 61.265-61.263C122.527 27.481 95.04 0 61.262 0zm0 119.715c-32.223 0-58.453-26.230-58.453-58.455 0-32.222 26.23-58.451 58.453-58.451 32.222 0 58.450 26.229 58.450 58.451 0 32.225-26.228 58.455-58.450 58.455z"/>
+          </g>
+        </svg>
+      </div>
+      <div class="wp-label">WordPress</div>
+      <div class="badge">Full Ownership</div>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM TAG -->
+  <div class="bottom-tag">
+    <span class="tag-item">100% Responsive</span>
+    <span class="tag-item">SEO Preserved</span>
+    <span class="tag-item">Fast Delivery</span>
+  </div>
+
+</div>
+</body>
+</html>

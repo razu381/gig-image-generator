@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Figma to React / Next.js — Primary</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #111; padding: 20px; }
+    body > * { width: 100%; }
+
+    .canvas {
+      width: 100%;
+      max-width: 1280px;
+      aspect-ratio: 1280 / 769;
+      overflow: hidden; position: relative;
+      background: #070d07;
+      display: flex;
+    }
+
+    /* Deep sweep from right — green tones */
+    .bg-sweep {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 110% at 100% 50%,
+        #0a3d0a 0%, rgba(10,61,10,0.55) 35%, transparent 62%);
+      z-index: 0;
+    }
+    /* Secondary sweep — top left corner */
+    .bg-sweep2 {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 45% 55% at 0% 0%,
+        rgba(10,61,10,0.4) 0%, transparent 60%);
+      z-index: 0;
+    }
+    /* Main bloom — behind photo */
+    .bg-glow {
+      position: absolute; width: clamp(260px, 45vw, 520px); height: clamp(260px, 45vw, 520px); border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,234,28,0.22) 0%, transparent 68%);
+      top: 50%; left: 67%; transform: translate(-50%,-50%); z-index: 1;
+    }
+    /* Upper-right glow */
+    .bg-glow2 {
+      position: absolute; width: clamp(160px, 28vw, 320px); height: clamp(160px, 28vw, 320px); border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,234,28,0.10) 0%, transparent 70%);
+      top: -60px; right: 60px; z-index: 1;
+    }
+    /* Lower-left flare */
+    .bg-glow3 {
+      position: absolute; width: clamp(130px, 22vw, 260px); height: clamp(130px, 22vw, 260px); border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,234,28,0.12) 0%, transparent 70%);
+      bottom: -40px; left: 120px; z-index: 1;
+    }
+    /* Horizontal band */
+    .bg-band {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg,
+        transparent 30%,
+        rgba(0,234,28,0.03) 50%,
+        transparent 70%);
+      z-index: 1;
+    }
+    /* Dot grid — green */
+    .bg-dots {
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle, rgba(0,234,28,0.08) 1px, transparent 1px);
+      background-size: clamp(15px, 3vw, 30px) clamp(15px, 3vw, 30px); z-index: 1;
+    }
+    /* Faint watermark logo area */
+    .bg-mark {
+      position: absolute; right: -80px; top: 30%; transform: translateY(-50%);
+      width: clamp(340px, 60vw, 680px); height: clamp(340px, 60vw, 680px);
+      z-index: 1; user-select: none; pointer-events: none;
+      opacity: 0.03; font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: clamp(160px, 28vw, 320px); color: #00ea1c; display: flex; align-items: center; justify-content: center;
+    }
+    /* Diagonal slash divider */
+    .bg-slash {
+      position: absolute; top: 0; bottom: 0; left: clamp(280px, 55%, 700px); width: 1.5px;
+      background: linear-gradient(180deg,
+        transparent 0%, rgba(0,234,28,0.15) 20%,
+        rgba(0,234,28,0.50) 50%, rgba(0,234,28,0.15) 80%, transparent 100%);
+      transform: skewX(-6deg); z-index: 2;
+    }
+
+    /* ── LEFT CONTENT ── */
+    .left-content {
+      width: clamp(280px, 55%, 700px);
+      height: 100%;
+      padding: clamp(20px, 4%, 46px) clamp(24px, 5%, 56px);
+      display: flex; flex-direction: column; justify-content: center; gap: clamp(12px, 2.5%, 22px);
+      position: relative; z-index: 5;
+    }
+
+    .eyebrow-row { display: flex; align-items: center; gap: clamp(6px, 1.5%, 10px); }
+    .eyebrow-icon {
+      width: clamp(18px, 2.5vw, 26px); height: clamp(18px, 2.5vw, 26px); border-radius: clamp(3px, 0.5vw, 5px);
+      background: #00ea1c;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; box-shadow: 0 0 14px rgba(0,234,28,0.55);
+      font-family: 'JetBrains Mono', monospace; font-weight: 700;
+      font-size: clamp(9px, 1.5vw, 13px); color: #030e03; letter-spacing: 0;
+    }
+    .eyebrow {
+      font-family: 'JetBrains Mono', monospace; font-size: clamp(8px, 1.2vw, 11px); font-weight: 700;
+      color: #7dff91; text-transform: uppercase; letter-spacing: 0.14em;
+    }
+
+    /* Headline */
+    .headline { font-family: 'Syne', sans-serif; font-weight: 800; text-transform: uppercase; line-height: 0.93; letter-spacing: -1.5px; position: relative; z-index: 10; }
+    .headline .line-small {
+      font-size: clamp(18px, 3.5vw, 36px); color: #ffffff; letter-spacing: 0.08em;
+      font-weight: 700; display: block; margin-bottom: clamp(3px, 0.5vw, 6px);
+    }
+    .headline .line-big {
+      font-size: clamp(32px, 7vw, 76px); letter-spacing: -2.5px; display: block;
+    }
+    .headline .line-accent { color: #00ea1c; }
+    .headline .line-white  { color: #f0f0f0; }
+
+    /* Divider */
+    .divider { width: clamp(24px, 5vw, 48px); height: clamp(1.5px, 0.3vw, 2.5px); background: linear-gradient(90deg, #00ea1c, transparent); border-radius: 2px; }
+
+    /* Stats */
+    .stats { display: flex; gap: clamp(6px, 1.5vw, 12px); flex-wrap: wrap; }
+    .stat-box {
+      border: 1px solid rgba(10,61,10,0.85);
+      border-top: 1px solid rgba(0,234,28,0.40);
+      border-radius: clamp(4px, 0.8vw, 8px); padding: clamp(8px, 2vw, 15px) clamp(10px, 2.5vw, 20px);
+      background: #0a0f0a; min-width: clamp(70px, 12vw, 106px);
+      box-shadow: 0 2px 18px rgba(0,234,28,0.08);
+    }
+    .stat-number { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(18px, 3.5vw, 32px); color: #00ea1c; line-height: 1; text-shadow: 0 0 12px rgba(0,234,28,0.45); }
+    .stat-label  { font-family: 'JetBrains Mono', monospace; font-size: clamp(7px, 1.2vw, 10px); font-weight: 700; color: rgba(125,255,145,0.55); text-transform: uppercase; letter-spacing: 0.12em; margin-top: clamp(3px, 0.8vw, 6px); }
+
+    /* ── PHOTO SECTION ── */
+    .photo-section { flex: 1; height: 100%; position: relative; z-index: 4; }
+    .photo-section img {
+      width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block;
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.25) 10%, rgba(0,0,0,0.75) 25%, black 42%);
+      mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.25) 10%, rgba(0,0,0,0.75) 25%, black 42%);
+    }
+    /* Green tint overlay on photo */
+    .photo-tint {
+      position: absolute; inset: 0;
+      background: linear-gradient(160deg, rgba(10,61,10,0.14) 0%, transparent 55%);
+      z-index: 5; pointer-events: none;
+    }
+
+    /* ── REVIEW BADGE ── */
+    .review-badge {
+      position: absolute; top: clamp(12px, 2vw, 22px); right: clamp(12px, 2vw, 22px);
+      background: linear-gradient(135deg, #00ea1c 0%, #0a5e10 100%);
+      padding: clamp(6px, 1.5vw, 10px) clamp(10px, 2vw, 18px); border-radius: clamp(3px, 0.6vw, 6px); z-index: 10;
+      box-shadow: 0 0 22px rgba(0,234,28,0.50);
+    }
+    .review-badge span { font-family: 'JetBrains Mono', monospace; font-size: clamp(8px, 1.5vw, 12px); font-weight: 700; color: #030e03; letter-spacing: 0.04em; }
+
+    /* ── ACCENT LINE — green signature ── */
+    .accent-line {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg,
+        transparent 0%, #0a3d0a 15%, #00ea1c 42%,
+        #7dff91 58%, rgba(125,255,145,0.3) 80%, transparent 100%);
+      z-index: 10;
+    }
+
+    /* ── TECH STACK ICONS ── */
+    .tech-stack {
+      display: flex; align-items: center; gap: clamp(6px, 1.2vw, 10px);
+      margin-top: clamp(20px, 3vw, 30px);
+    }
+    .tech-icon {
+      width: clamp(30px, 3.5vw, 80px);
+      height: clamp(30px, 3.5vw, 80px); border-radius: 50%;
+      background: rgba(0,234,28,0.06);
+      border: 1px solid rgba(0,234,28,0.22);
+      display: flex; align-items: center; justify-content: center;
+      filter: drop-shadow(0 0 5px rgba(0,234,28,0.20));
+    }
+    .tech-icon svg { width: clamp(10px, 1.8vw, 32px); height: auto; }
+  </style>
+</head>
+<body>
+  <div class="canvas">
+    <!-- Background layers -->
+    <div class="bg-sweep"></div>
+    <div class="bg-sweep2"></div>
+    <div class="bg-glow"></div>
+    <div class="bg-glow2"></div>
+    <div class="bg-glow3"></div>
+    <div class="bg-band"></div>
+    <div class="bg-dots"></div>
+    <div class="bg-mark">N</div>
+    <div class="bg-slash"></div>
+
+    <!-- LEFT CONTENT -->
+    <div class="left-content">
+
+      <div class="eyebrow-row">
+        <div class="eyebrow-icon">N</div>
+        <div class="eyebrow">Figma to React &amp; Next.js Expert</div>
+      </div>
+
+      <div class="headline">
+        <span class="line-small">Pixel-Perfect</span>
+        <span class="line-big line-accent">REACT /</span>
+        <span class="line-big line-white">NEXT.JS</span>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="stats">
+        <div class="stat-box"><div class="stat-number">70+</div><div class="stat-label">Reviews</div></div>
+        <div class="stat-box"><div class="stat-number">19</div><div class="stat-label">Countries</div></div>
+        <div class="stat-box"><div class="stat-number"><span class=""> 5 </span> YRS </div><div class="stat-label">Experience</div></div>
+      </div>
+
+      <div class="tech-stack">
+        <!-- Figma icon -->
+        <div class="tech-icon">
+          <svg width="16" height="22" viewBox="0 0 38 57" fill="none">
+            <path d="M19 28.5C19 25.48 21.43 23 24.5 23C27.57 23 30 25.48 30 28.5C30 31.52 27.57 34 24.5 34C21.43 34 19 31.52 19 28.5Z" fill="#1ABCFE"/>
+            <path d="M8 42.5C8 39.48 10.43 37 13.5 37H19V42.5C19 45.52 16.57 48 13.5 48C10.43 48 8 45.52 8 42.5Z" fill="#0ACF83"/>
+            <path d="M19 9V23H24.5C27.57 23 30 20.52 30 17.5C30 14.48 27.57 12 24.5 12H19V9Z" fill="#FF7262"/>
+            <path d="M8 17.5C8 20.52 10.43 23 13.5 23H19V12H13.5C10.43 12 8 14.48 8 17.5Z" fill="#F24E1E"/>
+            <path d="M8 31.5C8 34.52 10.43 37 13.5 37H19V26H13.5C10.43 26 8 28.48 8 31.5Z" fill="#A259FF"/>
+          </svg>
+        </div>
+        <!-- React icon -->
+        <div class="tech-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="2.2" fill="#61DAFB"/>
+            <ellipse cx="12" cy="12" rx="10" ry="4" stroke="#61DAFB" stroke-width="1.1" fill="none"/>
+            <ellipse cx="12" cy="12" rx="10" ry="4" stroke="#61DAFB" stroke-width="1.1" fill="none" transform="rotate(60 12 12)"/>
+            <ellipse cx="12" cy="12" rx="10" ry="4" stroke="#61DAFB" stroke-width="1.1" fill="none" transform="rotate(120 12 12)"/>
+          </svg>
+        </div>
+        <!-- Next.js icon -->
+        <div class="tech-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="11" fill="#000"/>
+            <path d="M7.5 7.5H9.5L16.5 17H14.5L7.5 7.5Z" fill="white"/>
+            <path d="M14 7.5H16V14.5L14 12.2V7.5Z" fill="white"/>
+          </svg>
+        </div>
+        <!-- TypeScript icon -->
+        <div class="tech-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <rect width="24" height="24" rx="3" fill="#3178C6"/>
+            <text x="5" y="18" font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="white">TS</text>
+          </svg>
+        </div>
+        <!-- Tailwind icon -->
+        <div class="tech-icon">
+          <svg width="20" height="13" viewBox="0 0 54 33" fill="none">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M27 0C19.8 0 15.3 3.6 13.5 10.8C16.2 7.2 19.35 5.85 22.95 6.75C25.004 7.263 26.472 8.754 28.097 10.403C30.744 13.09 33.808 16.2 40.5 16.2C47.7 16.2 52.2 12.6 54 5.4C51.3 9 48.15 10.35 44.55 9.45C42.496 8.937 41.028 7.446 39.403 5.797C36.756 3.11 33.692 0 27 0ZM13.5 16.2C6.3 16.2 1.8 19.8 0 27C2.7 23.4 5.85 22.05 9.45 22.95C11.504 23.463 12.972 24.954 14.597 26.603C17.244 29.29 20.308 32.4 27 32.4C34.2 32.4 38.7 28.8 40.5 21.6C37.8 25.2 34.65 26.55 31.05 25.65C28.996 25.137 27.528 23.646 25.903 21.997C23.256 19.31 20.192 16.2 13.5 16.2Z" fill="#38BDF8"/>
+          </svg>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- PHOTO -->
+    <div class="photo-section">
+      <img src="../images/shohidul-i-razu.png" alt="">
+      <div class="photo-tint"></div>
+    </div>
+
+    <!-- REVIEW BADGE -->
+    <div class="review-badge"><span>★ 70+ Five-Star Reviews</span></div>
+
+    <!-- BOTTOM ACCENT LINE -->
+    <div class="accent-line"></div>
+
+  </div>
+</body>
+</html>

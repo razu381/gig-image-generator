@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gig Image - Freedom from Lock-in</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #151a1a;
+    font-family: 'Syne', sans-serif;
+  }
+
+  .gig-card {
+    width: 1280px;
+    height: 769px;
+    background: #1e2525;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 80px;
+  }
+
+  /* Grid overlay */
+  .gig-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,234,28,0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,234,28,0.08) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Ambient radial glows */
+  .gig-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 55% 60% at -8% 0%, rgba(0,234,28,0.15) 0%, transparent 65%),
+      radial-gradient(ellipse 40% 50% at 108% 100%, rgba(0,234,28,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 35% 45% at 50% -10%, rgba(0,234,28,0.08) 0%, transparent 55%);
+  }
+
+  /* Corner accents */
+  .corner {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    z-index: 5;
+  }
+  .corner-tl { top: 24px; left: 24px; border-top: 2px solid rgba(0,234,28,0.5); border-left: 2px solid rgba(0,234,28,0.5); }
+  .corner-tr { top: 24px; right: 24px; border-top: 2px solid rgba(0,234,28,0.5); border-right: 2px solid rgba(0,234,28,0.5); }
+  .corner-bl { bottom: 24px; left: 24px; border-bottom: 2px solid rgba(0,234,28,0.5); border-left: 2px solid rgba(0,234,28,0.5); }
+  .corner-br { bottom: 24px; right: 24px; border-bottom: 2px solid rgba(0,234,28,0.5); border-right: 2px solid rgba(0,234,28,0.5); }
+
+  /* Dot grid top right */
+  .dot-grid {
+    position: absolute;
+    top: 36px;
+    right: 100px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+    opacity: 0.2;
+    z-index: 2;
+  }
+  .dot-grid span {
+    width: 5px;
+    height: 5px;
+    background: #00ea1c;
+    border-radius: 50%;
+    display: block;
+  }
+
+  /* ── CONTENT ── */
+  .content {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    max-width: 1000px;
+    animation: fadeDown 0.7s ease both;
+  }
+
+  /* Eyebrow */
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    font-weight: 500;
+    color: #00ea1c;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    opacity: 0.9;
+  }
+
+  /* Lock icon */
+  .lock-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 20px;
+    background: rgba(0,234,28,0.08);
+    border: 1px solid rgba(0,234,28,0.25);
+    border-radius: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: pulse-glow 2.5s ease-in-out infinite;
+  }
+
+  .lock-icon svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 20px rgba(0,234,28,0.1); }
+    50% { box-shadow: 0 0 40px rgba(0,234,28,0.25); }
+  }
+
+  /* Main heading */
+  .main-heading {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 80px;
+    line-height: 0.95;
+    letter-spacing: 3px;
+    color: #f2f2f2;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .main-heading .strike {
+    text-decoration: line-through;
+    text-decoration-color: #ff4444;
+    text-decoration-thickness: 3px;
+    color: #444;
+    font-size: 64px;
+  }
+
+  .main-heading .highlight {
+    background: #00ea1c;
+    color: #1e2525;
+    padding: 2px 24px 6px;
+    border-radius: 8px;
+    box-shadow: 0 0 40px rgba(0,234,28,0.45), 0 0 80px rgba(0,234,28,0.15);
+  }
+
+  /* Subheading */
+  .subheading {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: #888;
+    margin-bottom: 32px;
+    letter-spacing: 1px;
+  }
+
+  /* Stats row */
+  .stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 32px;
+    animation: fadeIn 0.7s 0.2s ease both;
+  }
+
+  .stat-box {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 20px 32px;
+    text-align: center;
+    min-width: 170px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, background 0.3s;
+  }
+
+  .stat-box::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, #00ea1c, rgba(0,234,28,0.2));
+    border-radius: 0 2px 2px 0;
+    opacity: 0.5;
+  }
+
+  .stat-box:hover {
+    background: rgba(255,255,255,0.065);
+    border-color: rgba(255,255,255,0.15);
+  }
+
+  .stat-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    color: #00ea1c;
+    line-height: 1;
+    margin-bottom: 6px;
+    letter-spacing: 2px;
+  }
+
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    color: #888;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* Platforms row */
+  .platforms-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 28px;
+    animation: fadeIn 0.7s 0.35s ease both;
+  }
+
+  .platform-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.04);
+    padding: 8px;
+    transition: border-color 0.3s, background 0.3s;
+  }
+
+  .platform-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .platform-icon:hover {
+    background: rgba(255,255,255,0.065);
+    border-color: rgba(255,255,255,0.15);
+  }
+
+  /* White bg for dark logos */
+  .platform-icon.wix { background: #fff; }
+  .platform-icon.squarespace { background: #fff; border-left: 3px solid #146EF5; }
+  .platform-icon.lovable { border-left: 3px solid #FF5757; }
+  .platform-icon.replit { border-left: 3px solid #FD5402; }
+  .platform-icon.webflow { border-left: 3px solid #4353FF; }
+
+  .arrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 20px;
+    color: #333;
+  }
+
+  .wp-target {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(145deg, #00ea1c 0%, #00b815 100%);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 34px;
+    font-weight: 400;
+    color: #1e2525;
+    box-shadow:
+      0 0 30px rgba(0,234,28,0.35),
+      0 0 60px rgba(0,234,28,0.12);
+    letter-spacing: 1px;
+  }
+
+  /* Benefits */
+  .benefits {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    animation: fadeIn 0.7s 0.5s ease both;
+  }
+
+  .benefit-tag {
+    background: rgba(0,234,28,0.06);
+    border: 1px solid rgba(0,234,28,0.2);
+    border-radius: 50px;
+    padding: 12px 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    color: #e8e8e8;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: border-color 0.3s, background 0.3s;
+  }
+
+  .benefit-tag:hover {
+    background: rgba(0,234,28,0.1);
+    border-color: rgba(0,234,28,0.35);
+  }
+
+  .benefit-tag .dot {
+    width: 6px;
+    height: 6px;
+    background: #00ea1c;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* Animations */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+</style>
+</head>
+<body>
+
+<div class="gig-card">
+  <div class="corner corner-tl"></div>
+  <div class="corner corner-tr"></div>
+  <div class="corner corner-bl"></div>
+  <div class="corner corner-br"></div>
+
+  <div class="dot-grid">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <div class="content">
+    <!-- Lock icon -->
+    <div class="lock-icon">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7 11V7C7 4.23858 9.23858 2 12 2C14.7614 2 17 4.23858 17 7V11" stroke="#00ea1c" stroke-width="2.5" stroke-linecap="round"/>
+        <rect x="3" y="11" width="18" height="12" rx="2" fill="#00ea1c" opacity="0.3"/>
+        <circle cx="12" cy="17" r="2" fill="#00ea1c"/>
+      </svg>
+    </div>
+
+    <!-- Eyebrow -->
+    <div class="eyebrow">// Break Free</div>
+
+    <!-- Main heading -->
+    <h1 class="main-heading">
+      Stop Paying<br>
+      <span class="strike">Platform Lock-in</span><br>
+      Own Your <span class="highlight">Site</span>
+    </h1>
+
+    <p class="subheading">
+      Migrate to WordPress — Zero Monthly Fees, Full Control
+    </p>
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="stat-number">5+</div>
+        <div class="stat-label">Years Exp</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">80+</div>
+        <div class="stat-label">Reviews</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">$0</div>
+        <div class="stat-label">Monthly Fees</div>
+      </div>
+    </div>
+
+    <!-- Platforms row -->
+    <div class="platforms-row">
+      <div class="platform-icon wix"><img src="../images/logos/wix-logo-1.svg" alt="Wix"></div>
+      <span class="arrow">→</span>
+      <div class="platform-icon squarespace"><img src="../images/logos/squarespace.svg" alt="Squarespace"></div>
+      <span class="arrow">→</span>
+      <div class="platform-icon lovable"><img src="../images/logos/lovable-logo-icon.svg" alt="Lovable"></div>
+      <span class="arrow">→</span>
+      <div class="platform-icon replit"><img src="../images/logos/replit-color.svg" alt="Replit"></div>
+      <span class="arrow">→</span>
+      <div class="platform-icon webflow"><img src="../images/logos/webflow.svg" alt="Webflow"></div>
+      <span class="arrow">→</span>
+      <div class="wp-target">WP</div>
+    </div>
+
+    <!-- Benefits -->
+    <div class="benefits">
+      <div class="benefit-tag"><span class="dot"></span> 100% Your Content</div>
+      <div class="benefit-tag"><span class="dot"></span> No Subscription</div>
+      <div class="benefit-tag"><span class="dot"></span> Pixel Perfect</div>
+      <div class="benefit-tag"><span class="dot"></span> Full Control</div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

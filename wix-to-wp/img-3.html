@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gig Image - Clone & Launch</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #151a1a;
+    font-family: 'Syne', sans-serif;
+  }
+
+  .gig-card {
+    width: 1280px;
+    height: 769px;
+    background: #1e2525;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 80px;
+  }
+
+  /* Grid overlay */
+  .gig-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,234,28,0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,234,28,0.08) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Ambient radial glows */
+  .gig-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 55% 60% at -8% 0%, rgba(0,234,28,0.15) 0%, transparent 65%),
+      radial-gradient(ellipse 40% 50% at 108% 100%, rgba(0,234,28,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 35% 45% at 50% -10%, rgba(0,234,28,0.08) 0%, transparent 55%);
+  }
+
+  /* Corner accents */
+  .corner {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    z-index: 5;
+  }
+  .corner-tl { top: 24px; left: 24px; border-top: 2px solid rgba(0,234,28,0.5); border-left: 2px solid rgba(0,234,28,0.5); }
+  .corner-tr { top: 24px; right: 24px; border-top: 2px solid rgba(0,234,28,0.5); border-right: 2px solid rgba(0,234,28,0.5); }
+  .corner-bl { bottom: 24px; left: 24px; border-bottom: 2px solid rgba(0,234,28,0.5); border-left: 2px solid rgba(0,234,28,0.5); }
+  .corner-br { bottom: 24px; right: 24px; border-bottom: 2px solid rgba(0,234,28,0.5); border-right: 2px solid rgba(0,234,28,0.5); }
+
+  /* Dot grid top right */
+  .dot-grid {
+    position: absolute;
+    top: 36px;
+    right: 100px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+    opacity: 0.2;
+    z-index: 2;
+  }
+  .dot-grid span {
+    width: 5px;
+    height: 5px;
+    background: #00ea1c;
+    border-radius: 50%;
+    display: block;
+  }
+
+  /* ── HEADING ── */
+  .heading {
+    text-align: center;
+    margin-bottom: 48px;
+    position: relative;
+    z-index: 3;
+    animation: fadeDown 0.7s ease both;
+  }
+
+  .heading .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    font-weight: 500;
+    color: #00ea1c;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    opacity: 0.9;
+  }
+
+  .heading .main-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 96px;
+    line-height: 0.95;
+    letter-spacing: 3px;
+    color: #f2f2f2;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+  }
+
+  .heading .main-title .to-text {
+    color: #444;
+    font-size: 72px;
+    letter-spacing: 6px;
+  }
+
+  .heading .main-title .wp-chip {
+    background: #00ea1c;
+    color: #1e2525;
+    padding: 2px 26px 6px;
+    border-radius: 8px;
+    font-size: 96px;
+    box-shadow: 0 0 40px rgba(0,234,28,0.45), 0 0 80px rgba(0,234,28,0.15);
+  }
+
+  .heading .subtitle {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: #888;
+    margin-top: 18px;
+    letter-spacing: 1px;
+  }
+
+  /* ── TWO COLUMN LAYOUT ── */
+  .columns {
+    display: flex;
+    gap: 40px;
+    width: 100%;
+    max-width: 1050px;
+    position: relative;
+    z-index: 3;
+  }
+
+  /* ── LEFT: PROCESS STEPS ── */
+  .process-steps {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    animation: fadeLeft 0.7s 0.2s ease both;
+  }
+
+  .process-step {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 18px 24px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, background 0.3s;
+  }
+
+  .process-step::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: #00ea1c;
+    border-radius: 0 2px 2px 0;
+    opacity: 0.5;
+  }
+
+  .process-step:hover {
+    background: rgba(255,255,255,0.065);
+    border-color: rgba(255,255,255,0.15);
+  }
+
+  .step-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    font-weight: 500;
+    color: #00ea1c;
+    letter-spacing: 2px;
+    flex-shrink: 0;
+    min-width: 30px;
+  }
+
+  .step-label {
+    font-size: 24px;
+    font-weight: 700;
+    color: #e8e8e8;
+    font-family: 'Syne', sans-serif;
+  }
+
+  .step-desc {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: #666;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-left: auto;
+  }
+
+  /* Vertical connector line between steps */
+  .step-connector {
+    width: 1px;
+    height: 8px;
+    background: rgba(0,234,28,0.2);
+    margin-left: 16px;
+  }
+
+  /* ── RIGHT: FEATURES GRID ── */
+  .features-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    animation: fadeRight 0.7s 0.35s ease both;
+  }
+
+  .feature-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 22px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: border-color 0.3s, background 0.3s;
+    border-top: 2px solid rgba(0,234,28,0.3);
+  }
+
+  .feature-card:hover {
+    background: rgba(255,255,255,0.065);
+    border-color: rgba(255,255,255,0.15);
+  }
+
+  .feature-card .icon {
+    width: 36px;
+    height: 36px;
+    background: rgba(0,234,28,0.1);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .feature-card .icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .feature-card .title {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #e8e8e8;
+  }
+
+  .feature-card .desc {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #666;
+    letter-spacing: 1px;
+    line-height: 1.5;
+  }
+
+  /* ── BOTTOM TAG ── */
+  .bottom-tag {
+    position: absolute;
+    bottom: 34px;
+    left: 0; right: 0;
+    text-align: center;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+  }
+
+  .bottom-tag .tag-item {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    font-weight: 500;
+    color: #e8e8e8;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    padding: 0 28px;
+    position: relative;
+  }
+
+  .bottom-tag .tag-item:not(:last-child)::after {
+    content: '◆';
+    position: absolute;
+    right: -8px;
+    color: #00ea1c;
+    font-size: 8px;
+    opacity: 0.6;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeLeft {
+    from { opacity: 0; transform: translateX(-24px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes fadeRight {
+    from { opacity: 0; transform: translateX(24px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+</style>
+</head>
+<body>
+<div class="gig-card">
+
+  <div class="corner corner-tl"></div>
+  <div class="corner corner-tr"></div>
+  <div class="corner corner-bl"></div>
+  <div class="corner corner-br"></div>
+
+  <div class="dot-grid">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <!-- HEADING -->
+  <div class="heading">
+    <div class="eyebrow">// Clone & Launch</div>
+    <div class="main-title">
+      Clone To <span class="to-text">→</span> <span class="wp-chip">WordPress</span>
+    </div>
+    <div class="subtitle">Your design, content & SEO — preserved pixel by pixel</div>
+  </div>
+
+  <!-- TWO COLUMNS -->
+  <div class="columns">
+
+    <!-- LEFT: Process Steps -->
+    <div class="process-steps">
+      <div class="process-step">
+        <span class="step-number">01</span>
+        <span class="step-label">Design Audit</span>
+        <span class="step-desc">Every element mapped</span>
+      </div>
+      <div class="step-connector"></div>
+      <div class="process-step">
+        <span class="step-number">02</span>
+        <span class="step-label">Content Migration</span>
+        <span class="step-desc">Pages, posts & media</span>
+      </div>
+      <div class="step-connector"></div>
+      <div class="process-step">
+        <span class="step-number">03</span>
+        <span class="step-label">Build & Test</span>
+        <span class="step-desc">Pixel-perfect QA</span>
+      </div>
+      <div class="step-connector"></div>
+      <div class="process-step">
+        <span class="step-number">04</span>
+        <span class="step-label">Go Live</span>
+        <span class="step-desc">Zero downtime</span>
+      </div>
+    </div>
+
+    <!-- RIGHT: Feature Cards -->
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#00ea1c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <div class="title">SEO Preserved</div>
+        <div class="desc">Meta tags, URLs & rankings intact</div>
+      </div>
+      <div class="feature-card">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#00ea1c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+            <line x1="12" y1="18" x2="12.01" y2="18"/>
+          </svg>
+        </div>
+        <div class="title">Mobile Ready</div>
+        <div class="desc">Responsive on every device</div>
+      </div>
+      <div class="feature-card">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#00ea1c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="16 18 22 12 16 6"/>
+            <polyline points="8 6 2 12 8 18"/>
+          </svg>
+        </div>
+        <div class="title">Clean Code</div>
+        <div class="desc">Optimized & developer-friendly</div>
+      </div>
+      <div class="feature-card">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#00ea1c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <div class="title">Secure Setup</div>
+        <div class="desc">Hardened WordPress install</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM TAG -->
+  <div class="bottom-tag">
+    <span class="tag-item">URL Redirects</span>
+    <span class="tag-item">Plugin Setup</span>
+    <span class="tag-item">Speed Optimized</span>
+  </div>
+
+</div>
+</body>
+</html>
