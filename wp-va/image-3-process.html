@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gig Image 3 - Get Started</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #151a1a;
+            font-family: 'Syne', sans-serif;
+        }
+
+        .gig-card {
+            width: 1280px;
+            height: 769px;
+            background: #1e2525;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 38px 80px 50px;
+        }
+
+        /* Grid overlay */
+        .gig-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(0, 234, 28, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 234, 28, 0.08) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Ambient glows */
+        .gig-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(ellipse 55% 60% at -8% 0%, rgba(0, 234, 28, 0.15) 0%, transparent 65%),
+                radial-gradient(ellipse 50% 70% at 110% 55%, rgba(0, 234, 28, 0.18) 0%, transparent 60%),
+                radial-gradient(ellipse 35% 45% at 50% -10%, rgba(0, 234, 28, 0.08) 0%, transparent 55%);
+        }
+
+        /* Corner accents */
+        .corner { position: absolute; width: 60px; height: 60px; z-index: 5; }
+        .corner-tl { top: 24px; left: 24px; border-top: 2px solid rgba(0,234,28,0.5); border-left: 2px solid rgba(0,234,28,0.5); }
+        .corner-tr { top: 24px; right: 24px; border-top: 2px solid rgba(0,234,28,0.5); border-right: 2px solid rgba(0,234,28,0.5); }
+        .corner-bl { bottom: 24px; left: 24px; border-bottom: 2px solid rgba(0,234,28,0.5); border-left: 2px solid rgba(0,234,28,0.5); }
+        .corner-br { bottom: 24px; right: 24px; border-bottom: 2px solid rgba(0,234,28,0.5); border-right: 2px solid rgba(0,234,28,0.5); }
+
+        /* Dot grid */
+        .dot-grid {
+            position: absolute;
+            top: 36px; right: 100px;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
+            opacity: 0.2;
+            z-index: 2;
+        }
+        .dot-grid span { width: 5px; height: 5px; background: #00ea1c; border-radius: 50%; display: block; }
+
+        /* ── HEADING ── */
+        .heading {
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 3;
+        }
+
+        .eyebrow {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            font-weight: 500;
+            color: #00ea1c;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            opacity: 0.9;
+        }
+
+        .main-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 72px;
+            line-height: 0.95;
+            letter-spacing: 3px;
+            color: #f2f2f2;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 22px;
+        }
+
+        .main-title .chip {
+            background: #00ea1c;
+            color: #1e2525;
+            padding: 2px 26px 6px;
+            border-radius: 8px;
+            box-shadow: 0 0 40px rgba(0, 234, 28, 0.45), 0 0 80px rgba(0, 234, 28, 0.15);
+        }
+
+        .subtitle {
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: #888;
+            margin-top: 10px;
+            letter-spacing: 1px;
+        }
+
+        /* ── CONTENT ROW ── */
+        .content {
+            display: flex;
+            align-items: stretch;
+            justify-content: center;
+            gap: 50px;
+            position: relative;
+            z-index: 3;
+            width: 100%;
+            max-width: 1050px;
+        }
+
+        /* ── LEFT: PROCESS STEPS ── */
+        .process-steps {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .process-step {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            padding: 13px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .process-step::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 3px;
+            background: #00ea1c;
+            border-radius: 0 2px 2px 0;
+            opacity: 0.5;
+        }
+
+        .step-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            font-weight: 700;
+            color: #00ea1c;
+            letter-spacing: 2px;
+            flex-shrink: 0;
+            min-width: 30px;
+        }
+
+        .step-content {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .step-label {
+            font-size: 22px;
+            font-weight: 700;
+            color: #e8e8e8;
+            font-family: 'Syne', sans-serif;
+        }
+
+        .step-desc {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: #666;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Connector */
+        .step-connector {
+            width: 1px;
+            height: 3px;
+            background: rgba(0,234,28,0.25);
+            margin-left: 24px;
+        }
+
+        /* ── RIGHT: TESTIMONIAL + GRID ── */
+        .right-column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Testimonial card */
+        .testimonial-card {
+            background: rgba(0,234,28,0.04);
+            border: 1px solid rgba(0,234,28,0.2);
+            border-radius: 14px;
+            padding: 18px 22px 16px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 40px rgba(0,234,28,0.08);
+        }
+
+        .testimonial-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00ea1c, transparent);
+            opacity: 0.6;
+        }
+
+        .stars {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 10px;
+        }
+
+        .star {
+            color: #00ea1c;
+            font-size: 18px;
+        }
+
+        .quote-text {
+            font-family: 'Syne', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: #e0e0e0;
+            line-height: 1.5;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        .quote-text::before {
+            content: '"';
+            color: #00ea1c;
+            font-size: 28px;
+            font-weight: 800;
+            font-style: normal;
+            margin-right: 2px;
+        }
+
+        .quote-text::after {
+            content: '"';
+            color: #00ea1c;
+            font-size: 28px;
+            font-weight: 800;
+            font-style: normal;
+            margin-left: 2px;
+        }
+
+        .quote-author {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: #666;
+            letter-spacing: 1px;
+        }
+
+        .quote-author span {
+            color: #00ea1c;
+        }
+
+        /* 2x2 Confidence Grid */
+        .confidence-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .confidence-item {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .confidence-check {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            background: rgba(0,234,28,0.12);
+            border: 1px solid rgba(0,234,28,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .confidence-check svg {
+            width: 12px;
+            height: 12px;
+        }
+
+        .confidence-label {
+            font-family: 'Syne', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: #e0e0e0;
+        }
+
+        /* ── BOTTOM TAG ── */
+        .bottom-tag {
+            position: absolute;
+            bottom: 34px;
+            left: 0; right: 0;
+            text-align: center;
+            z-index: 3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tag-item {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            font-weight: 500;
+            color: #e8e8e8;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            padding: 0 28px;
+            position: relative;
+        }
+
+        .tag-item:not(:last-child)::after {
+            content: '◆';
+            position: absolute;
+            right: -8px;
+            color: #00ea1c;
+            font-size: 8px;
+            opacity: 0.6;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="gig-card">
+        <div class="corner corner-tl"></div>
+        <div class="corner corner-tr"></div>
+        <div class="corner corner-bl"></div>
+        <div class="corner corner-br"></div>
+
+        <div class="dot-grid">
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+
+        <!-- HEADING -->
+        <div class="heading">
+            <div class="eyebrow">// Start in Under 24 Hours</div>
+            <div class="main-title">
+                Get Started. <span class="chip">I'll Handle The Rest.</span>
+            </div>
+            <div class="subtitle">Send your WP login — I take care of everything from day one</div>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="content">
+
+            <!-- LEFT: 4 Process Steps -->
+            <div class="process-steps">
+                <div class="process-step">
+                    <span class="step-number">01</span>
+                    <div class="step-content">
+                        <span class="step-label">Share Access</span>
+                        <span class="step-desc">Send WP login, that's it</span>
+                    </div>
+                </div>
+                <div class="step-connector"></div>
+                <div class="process-step">
+                    <span class="step-number">02</span>
+                    <div class="step-content">
+                        <span class="step-label">Tell Me Your Tasks</span>
+                        <span class="step-desc">One-time setup call</span>
+                    </div>
+                </div>
+                <div class="step-connector"></div>
+                <div class="process-step">
+                    <span class="step-number">03</span>
+                    <div class="step-content">
+                        <span class="step-label">I Execute Daily</span>
+                        <span class="step-desc">Tasks done, updates sent</span>
+                    </div>
+                </div>
+                <div class="step-connector"></div>
+                <div class="process-step">
+                    <span class="step-number">04</span>
+                    <div class="step-content">
+                        <span class="step-label">You Grow</span>
+                        <span class="step-desc">Focus on revenue, not admin</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT: Testimonial + Confidence Grid -->
+            <div class="right-column">
+
+                <!-- Testimonial Card -->
+                <div class="testimonial-card">
+                    <div class="stars">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                    </div>
+                    <div class="quote-text">He handles everything. I just focus on selling. Best decision I made for my WooCommerce store.</div>
+                    <div class="quote-author">— Store Owner, <span>United States</span></div>
+                </div>
+
+                <!-- 2x2 Confidence Grid -->
+                <div class="confidence-grid">
+                    <div class="confidence-item">
+                        <div class="confidence-check">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#00ea1c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        </div>
+                        <span class="confidence-label">No Learning Curve</span>
+                    </div>
+                    <div class="confidence-item">
+                        <div class="confidence-check">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#00ea1c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        </div>
+                        <span class="confidence-label">Daily Updates</span>
+                    </div>
+                    <div class="confidence-item">
+                        <div class="confidence-check">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#00ea1c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        </div>
+                        <span class="confidence-label">Cancel Anytime</span>
+                    </div>
+                    <div class="confidence-item">
+                        <div class="confidence-check">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#00ea1c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        </div>
+                        <span class="confidence-label">Money-Back Guarantee</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- BOTTOM TAG -->
+        <div class="bottom-tag">
+            <span class="tag-item">100% Satisfaction</span>
+            <span class="tag-item">Money-Back Guarantee</span>
+            <span class="tag-item">Risk Free</span>
+        </div>
+
+    </div>
+</body>
+
+</html>

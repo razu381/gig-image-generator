@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gig Image 2 - What I Handle</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #151a1a;
+            font-family: 'Syne', sans-serif;
+        }
+
+        .gig-card {
+            width: 1280px;
+            height: 769px;
+            background: #1e2525;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 38px 70px 50px;
+        }
+
+        /* Grid overlay */
+        .gig-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(0, 234, 28, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 234, 28, 0.08) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Ambient glows */
+        .gig-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(ellipse 55% 60% at -8% 0%, rgba(0, 234, 28, 0.15) 0%, transparent 65%),
+                radial-gradient(ellipse 50% 70% at 110% 55%, rgba(0, 234, 28, 0.18) 0%, transparent 60%),
+                radial-gradient(ellipse 35% 45% at 50% -10%, rgba(0, 234, 28, 0.08) 0%, transparent 55%);
+        }
+
+        /* Corner accents */
+        .corner { position: absolute; width: 60px; height: 60px; z-index: 5; }
+        .corner-tl { top: 24px; left: 24px; border-top: 2px solid rgba(0,234,28,0.5); border-left: 2px solid rgba(0,234,28,0.5); }
+        .corner-tr { top: 24px; right: 24px; border-top: 2px solid rgba(0,234,28,0.5); border-right: 2px solid rgba(0,234,28,0.5); }
+        .corner-bl { bottom: 24px; left: 24px; border-bottom: 2px solid rgba(0,234,28,0.5); border-left: 2px solid rgba(0,234,28,0.5); }
+        .corner-br { bottom: 24px; right: 24px; border-bottom: 2px solid rgba(0,234,28,0.5); border-right: 2px solid rgba(0,234,28,0.5); }
+
+        /* Dot grid */
+        .dot-grid {
+            position: absolute;
+            top: 36px; right: 100px;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
+            opacity: 0.2;
+            z-index: 2;
+        }
+        .dot-grid span { width: 5px; height: 5px; background: #00ea1c; border-radius: 50%; display: block; }
+
+        /* Review badge */
+        .review-badge {
+            position: absolute;
+            top: 28px; left: 28px;
+            z-index: 10;
+            border: 1px solid rgba(0,234,28,0.2);
+            border-radius: 20px;
+            padding: 8px 18px;
+            background: rgba(0,234,28,0.04);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            font-weight: 700;
+            color: #00ea1c;
+            text-transform: uppercase;
+            letter-spacing: 0.10em;
+        }
+
+        /* ── HEADING ── */
+        .heading {
+            text-align: center;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 3;
+        }
+
+        .eyebrow {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            font-weight: 500;
+            color: #00ea1c;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            opacity: 0.9;
+        }
+
+        .main-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 70px;
+            line-height: 0.95;
+            letter-spacing: 3px;
+            color: #f2f2f2;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 22px;
+        }
+
+        .main-title .chip {
+            background: #00ea1c;
+            color: #1e2525;
+            padding: 2px 26px 6px;
+            border-radius: 8px;
+            box-shadow: 0 0 40px rgba(0, 234, 28, 0.45), 0 0 80px rgba(0, 234, 28, 0.15);
+        }
+
+        /* ── CONTENT ROW ── */
+        .content {
+            display: flex;
+            align-items: stretch;
+            justify-content: center;
+            gap: 40px;
+            position: relative;
+            z-index: 3;
+            width: 100%;
+        }
+
+        /* ── LEFT: TASK LIST ── */
+        .tasks-column {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            flex: 1;
+            max-width: 480px;
+        }
+
+        .task-bar {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 6px 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .task-bar::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 3px;
+            border-radius: 0 2px 2px 0;
+            background: #00ea1c;
+            opacity: 0.6;
+        }
+
+        .task-check {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            background: rgba(0, 234, 28, 0.1);
+            border: 1px solid rgba(0, 234, 28, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .task-check svg {
+            width: 12px;
+            height: 12px;
+        }
+
+        .task-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: #e8e8e8;
+            font-family: 'Syne', sans-serif;
+            letter-spacing: 0.2px;
+        }
+
+        /* ── RIGHT: DASHBOARD + STATS ── */
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            flex: 1;
+            max-width: 540px;
+        }
+
+        /* Dashboard mockup */
+        .dashboard {
+            background: #161b1b;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            overflow: hidden;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 16px 48px rgba(0,0,0,0.3);
+        }
+
+        .dash-topbar {
+            height: 32px;
+            background: #111515;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            display: flex;
+            align-items: center;
+            padding: 0 14px;
+            gap: 6px;
+        }
+
+        .wdot { width: 9px; height: 9px; border-radius: 50%; }
+        .wd-r { background: #ff5f57; }
+        .wd-y { background: #ffbd2e; }
+        .wd-g { background: #28c840; }
+
+        .dash-url {
+            margin-left: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: #444;
+            letter-spacing: 0.04em;
+        }
+
+        .dash-body {
+            display: flex;
+            flex: 1;
+        }
+
+        /* WP Sidebar */
+        .dash-sidebar {
+            width: 140px;
+            background: #111515;
+            border-right: 1px solid rgba(255,255,255,0.06);
+            padding: 12px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 14px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: #555;
+            letter-spacing: 0.02em;
+        }
+
+        .sidebar-item.active {
+            background: rgba(0,234,28,0.08);
+            color: #00ea1c;
+            border-left: 2px solid #00ea1c;
+        }
+
+        .sidebar-dot {
+            width: 5px; height: 5px;
+            border-radius: 50%;
+            background: #333;
+            flex-shrink: 0;
+        }
+        .sidebar-item.active .sidebar-dot { background: #00ea1c; }
+
+        /* Main area */
+        .dash-main {
+            flex: 1;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .dash-header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .dash-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: #ccc;
+        }
+
+        .dash-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            color: #00ea1c;
+            background: rgba(0,234,28,0.08);
+            border: 1px solid rgba(0,234,28,0.2);
+            border-radius: 4px;
+            padding: 2px 8px;
+            letter-spacing: 0.06em;
+        }
+
+        /* Orders table */
+        .orders-table {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .order-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 10px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+        }
+
+        .order-id { color: #666; width: 50px; }
+        .order-product { color: #aaa; flex: 1; }
+        .order-status {
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 9px;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+        }
+        .status-completed { background: rgba(0,234,28,0.1); color: #00ea1c; }
+        .status-processing { background: rgba(255,189,46,0.1); color: #ffbd2e; }
+        .status-shipped { background: rgba(97,218,251,0.1); color: #61dafb; }
+
+        /* Health widget */
+        .health-widget {
+            background: rgba(0,234,28,0.04);
+            border: 1px solid rgba(0,234,28,0.15);
+            border-radius: 8px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .health-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .health-dots {
+            display: flex;
+            gap: 5px;
+        }
+
+        .health-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: #00ea1c;
+        }
+
+        .health-status {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: #00ea1c;
+            margin-left: auto;
+            font-weight: 700;
+        }
+
+        /* ── STATS ROW ── */
+        .stats-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .stat-box {
+            background: rgba(0, 234, 28, 0.07);
+            border: 1px solid rgba(0, 234, 28, 0.25);
+            border-radius: 10px;
+            padding: 12px 16px;
+            text-align: center;
+            flex: 1;
+        }
+
+        .stat-num {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 38px;
+            color: #00ea1c;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            color: #666;
+            letter-spacing: 0.12em;
+            margin-top: 3px;
+            text-transform: uppercase;
+        }
+
+        /* ── BOTTOM TAG ── */
+        .bottom-tag {
+            position: absolute;
+            bottom: 34px;
+            left: 0; right: 0;
+            text-align: center;
+            z-index: 3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tag-item {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            font-weight: 500;
+            color: #e8e8e8;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            padding: 0 28px;
+            position: relative;
+        }
+
+        .tag-item:not(:last-child)::after {
+            content: '◆';
+            position: absolute;
+            right: -8px;
+            color: #00ea1c;
+            font-size: 8px;
+            opacity: 0.6;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="gig-card">
+        <div class="corner corner-tl"></div>
+        <div class="corner corner-tr"></div>
+        <div class="corner corner-bl"></div>
+        <div class="corner corner-br"></div>
+
+        <div class="dot-grid">
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+
+        <!-- Review Badge -->
+        <div class="review-badge">★ 80+ Five-Star Reviews</div>
+
+        <!-- HEADING -->
+        <div class="heading">
+            <div class="eyebrow">// Your Store, My Daily Checklist</div>
+            <div class="main-title">
+                What I Handle <span class="chip">For You</span>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="content">
+
+            <!-- LEFT: 10 Task Bars -->
+            <div class="tasks-column">
+                <div class="task-bar">
+                    <div class="task-check">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#00ea1c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <span class="task-name">Product Listings &amp; Descriptions</span>
+                </div>
+                <div class="task-bar">
+                    <div class="task-check">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#00ea1c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <span class="task-name">Order Processing &amp; Fulfillment</span>
+                </div>
+                <div class="task-bar">
+                    <div class="task-check">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#00ea1c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <span class="task-name">Plugin Updates &amp; Compatibility</span>
+                </div>
+                <div class="task-bar">
+                    <div class="task-check">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#00ea1c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <span class="task-name">Content Edits &amp; Page Updates</span>
+                </div>
+                <div class="task-bar">
+                    <div class="task-check">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#00ea1c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <span class="task-name">Theme Customization &amp; Fixes</span>
+                </div>
+                <div class="task-bar">
+                    <div class="task-check">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#00ea1c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <span class="task-name">Inventory &amp; Stock Management</span>
+                </div>
+                <div class="task-bar">
+                    <div class="task-check">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#00ea1c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <span class="task-name">Email &amp; Contact Form Setup</span>
+                </div>
+                <div class="task-bar">
+                    <div class="task-check">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#00ea1c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <span class="task-name">Speed &amp; Performance Tuning</span>
+                </div>
+                <div class="task-bar">
+                    <div class="task-check">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#00ea1c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <span class="task-name">Daily Backups &amp; Restoration</span>
+                </div>
+                <div class="task-bar">
+                    <div class="task-check">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#00ea1c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <span class="task-name">Security &amp; Malware Removal</span>
+                </div>
+            </div>
+
+            <!-- RIGHT: Dashboard + Stats -->
+            <div class="right-column">
+
+                <!-- WP Dashboard Mockup -->
+                <div class="dashboard">
+                    <div class="dash-topbar">
+                        <div class="wdot wd-r"></div>
+                        <div class="wdot wd-y"></div>
+                        <div class="wdot wd-g"></div>
+                        <span class="dash-url">yourstore.com/wp-admin</span>
+                    </div>
+                    <div class="dash-body">
+                        <!-- Sidebar -->
+                        <div class="dash-sidebar">
+                            <div class="sidebar-item">
+                                <div class="sidebar-dot"></div>
+                                Dashboard
+                            </div>
+                            <div class="sidebar-item active">
+                                <div class="sidebar-dot"></div>
+                                WooCommerce
+                            </div>
+                            <div class="sidebar-item">
+                                <div class="sidebar-dot"></div>
+                                Products
+                            </div>
+                            <div class="sidebar-item">
+                                <div class="sidebar-dot"></div>
+                                Pages
+                            </div>
+                            <div class="sidebar-item">
+                                <div class="sidebar-dot"></div>
+                                Plugins
+                            </div>
+                            <div class="sidebar-item">
+                                <div class="sidebar-dot"></div>
+                                Elementor
+                            </div>
+                            <div class="sidebar-item">
+                                <div class="sidebar-dot"></div>
+                                Settings
+                            </div>
+                        </div>
+
+                        <!-- Main content -->
+                        <div class="dash-main">
+                            <div class="dash-header-row">
+                                <span class="dash-title">Recent Orders</span>
+                                <span class="dash-badge">✓ ALL MANAGED</span>
+                            </div>
+
+                            <!-- Orders -->
+                            <div class="orders-table">
+                                <div class="order-row">
+                                    <span class="order-id">#1247</span>
+                                    <span class="order-product">Premium Bundle × 2</span>
+                                    <span class="order-status status-completed">Completed</span>
+                                </div>
+                                <div class="order-row">
+                                    <span class="order-id">#1246</span>
+                                    <span class="order-product">Starter Pack × 1</span>
+                                    <span class="order-status status-shipped">Shipped</span>
+                                </div>
+                                <div class="order-row">
+                                    <span class="order-id">#1245</span>
+                                    <span class="order-product">Pro License × 3</span>
+                                    <span class="order-status status-completed">Completed</span>
+                                </div>
+                                <div class="order-row">
+                                    <span class="order-id">#1244</span>
+                                    <span class="order-product">Custom Order × 1</span>
+                                    <span class="order-status status-processing">Processing</span>
+                                </div>
+                                <div class="order-row">
+                                    <span class="order-id">#1243</span>
+                                    <span class="order-product">Business Plan × 1</span>
+                                    <span class="order-status status-completed">Completed</span>
+                                </div>
+                            </div>
+
+                            <!-- Health widget -->
+                            <div class="health-widget">
+                                <span class="health-label">Store Health</span>
+                                <div class="health-dots">
+                                    <div class="health-dot"></div>
+                                    <div class="health-dot"></div>
+                                    <div class="health-dot"></div>
+                                    <div class="health-dot"></div>
+                                    <div class="health-dot"></div>
+                                </div>
+                                <span class="health-status">EXCELLENT</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Row -->
+                <div class="stats-row">
+                    <div class="stat-box">
+                        <div class="stat-num">50+</div>
+                        <div class="stat-label">Tasks / Week</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-num">&lt; 2hr</div>
+                        <div class="stat-label">Avg Response</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-num">99.9%</div>
+                        <div class="stat-label">Uptime</div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- BOTTOM TAG -->
+        <div class="bottom-tag">
+            <span class="tag-item">24/7 Available</span>
+            <span class="tag-item">Same-Day Delivery</span>
+            <span class="tag-item">Ongoing Support</span>
+        </div>
+
+    </div>
+</body>
+
+</html>

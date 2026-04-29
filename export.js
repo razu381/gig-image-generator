@@ -1,5 +1,4 @@
 import puppeteer from 'puppeteer'
-import sharp from 'sharp'
 import path from 'path'
 import fs from 'fs'
 import { fileURLToPath } from 'url'
@@ -73,25 +72,15 @@ async function exportGig() {
     // Extra wait for font rendering and CSS to fully settle
     await new Promise(r => setTimeout(r, 800))
 
-    // Screenshot at CSS pixel dimensions — actual capture is 2560×1538
+    // Screenshot at 2× density — actual capture is 2560×1538
     const buffer = await page.screenshot({
       type: 'png',
       fullPage: false,
       clip: { x: 0, y: 0, width: 1280, height: 769 },
     })
 
-    // Downscale 2560×1538 → 1280×769 via Lanczos3 (high-quality resampling)
-    await sharp(buffer)
-      .resize(1280, 769, {
-        kernel: sharp.kernel.lanczos3,
-        fit: 'fill',
-      })
-      .png({
-        compressionLevel: 9,
-        adaptiveFiltering: true,
-        palette: false,
-      })
-      .toFile(outputPath)
+    // Write full-resolution 2560×1538 PNG directly (no downscale)
+    fs.writeFileSync(outputPath, buffer)
 
     console.log(`  ✓ exported: exports/${gigFolderName}-${baseName}.png`)
 
